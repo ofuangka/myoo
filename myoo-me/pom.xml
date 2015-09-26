@@ -12,15 +12,36 @@
 	<properties>
 		<app.id>myoo-me</app.id>
 		<app.version>1</app.version>
-		<appengine.version>1.9.25</appengine.version>
+		<appengine.version>1.9.26</appengine.version>
 		<gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+		<spring.version>4.2.1.RELEASE</spring.version>
+		<jersey.version>2.22</jersey.version>
 	</properties>
 
 	<prerequisites>
 		<maven>3.1.0</maven>
 	</prerequisites>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Compile/runtime dependencies -->
@@ -35,11 +56,6 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>
@@ -53,6 +69,20 @@
 			<artifactId>appengine-api-stubs</artifactId>
 			<version>${appengine.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- user added -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-spring3</artifactId>
 		</dependency>
 	</dependencies>
 
