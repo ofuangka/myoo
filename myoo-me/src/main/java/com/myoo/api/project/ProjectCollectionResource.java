@@ -30,7 +30,7 @@ public class ProjectCollectionResource {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Project create(@Valid Project project) {
-		return project;
+		return projectService.create(project);
 	}
 	
 	@Path("/{projectId}")
