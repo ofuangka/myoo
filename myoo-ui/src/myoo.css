@@ -1,0 +1,12 @@
+.poster {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    width: 180px;
+    height: 200px;
+    overflow: hidden;
+}
+
+/* helper classes */
+.padding-md {
+    padding: 15px;
+}

@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="modal-header">
+    <a class="close" ng-click="$dismiss()"><i>&times;</i></a>
+    <h4>Manage Projects</h4>
+</div>
+<div class="modal-body">
+    <p ng-if="allProjects.length === 0" alert type="info">No projects yet. Be the first to <a href="" class="alert-link"
+                                                                                              ng-click="showCreateProject()">create
+        one</a>.</p>
 
-</body>
-</html>
+    <p class="text-center">
+        <button class="btn btn-primary" ng-click="showCreateProject()">Create a new project</button>
+    </p>
+    <a href="" class="poster thumbnail pull-left" ng-repeat="project in allProjects">
+        <div class="caption">
+            <h3>{{ project.name }}</h3>
+
+            <p>{{ project.description }}</p>
+        </div>
+    </a>
+
+    <div class="clearfix"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close()">Done</button>
+</div>
