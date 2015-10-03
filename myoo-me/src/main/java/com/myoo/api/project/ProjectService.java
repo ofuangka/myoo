@@ -9,7 +9,7 @@ public interface ProjectService {
 	 * 
 	 * @return
 	 */
-	public List<Project> get();
+	public List<Project> query();
 
 	/**
 	 * Updates and returns the given project. Returns null if something went

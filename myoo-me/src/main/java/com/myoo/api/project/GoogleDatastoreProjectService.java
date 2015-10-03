@@ -5,7 +5,6 @@ import java.util.List;
 import javax.inject.Named;
 
 import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
@@ -13,9 +12,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
 import com.myoo.api.datastore.GoogleDatastoreEntityMapper;
+import com.myoo.api.datastore.GoogleDatastoreService;
 
 @Named
-public class GoogleDatastoreProjectService implements ProjectService {
+public class GoogleDatastoreProjectService extends GoogleDatastoreService implements ProjectService {
 
 	private static final String KIND_PROJECT = "Project";
 	private static final String KEY_NAME = "name";
@@ -39,12 +39,8 @@ public class GoogleDatastoreProjectService implements ProjectService {
 		}
 	};
 
-	private DatastoreService getDatastore() {
-		return DatastoreServiceFactory.getDatastoreService();
-	}
-
 	@Override
-	public List<Project> get() {
+	public List<Project> query() {
 		return projectMapper.map(getDatastore().prepare(new Query(KIND_PROJECT)).asIterable());
 	}
 
