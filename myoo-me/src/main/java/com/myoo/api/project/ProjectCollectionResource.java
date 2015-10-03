@@ -36,6 +36,14 @@ public class ProjectCollectionResource {
 		return projectService.query();
 	}
 
+	/**
+	 * Creates or updates the Achievements for the project, associating each of
+	 * them to the Project, creates the Project, then Subscribes the User to the
+	 * Project
+	 * 
+	 * @param project
+	 * @return
+	 */
 	@POST
 	public Project create(@Valid Project project) {
 		List<Achievement> achievements = project.getAchievements();
