@@ -1,4 +1,4 @@
-<form name="createProjectForm" class="form">
+<form name="createProjectForm" class="form" novalidate>
     <div class="modal-header">
         <a class="close" ng-click="$dismiss()"><i>&times;</i></a>
         <h4>{{ modalTitle }}</h4></div>
@@ -9,35 +9,41 @@
                     <div class="form-group has-feedback"
                          ng-class="{'has-error': createProjectForm.$dirty && createProjectForm.$invalid}">
                         <label>Project Name</label>
-                        <input type="text" class="form-control" required="true" ng-model="project.name"/>
+                        <input type="text" class="form-control" required="true" ng-model="selectedProject.name"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback"
                           ng-show="createProjectForm.$dirty && createProjectForm.$invalid" aria-hidden="true"></span>
                     </div>
                     <div class="form-group">
                         <label>Project Description</label>
-                        <textarea class="form-control" ng-model="project.description"></textarea>
+                        <textarea class="form-control" ng-model="selectedProject.description"></textarea>
                     </div>
                 </div>
             </div>
             <div tab heading="Achievements">
                 <div class="padding-md">
-                    <p ng-if="project.achievements.length === 0" alert type="info">There are currently no achievements
-                        for
-                        this project.
+                    <p ng-if="selectedProject.achievements.length === 0" alert type="info">There are currently no
+                        achievements for this project.
                     </p>
 
                     <p class="text-center">
                         <button class="btn btn-primary" ng-click="showCreateAchievement()">Create a new achievement
                         </button>
                     </p>
+                    <div class="list-group">
+                        <div class="list-group-item" ng-repeat="achievement in selectedProject.achievements">
+                            <h5>{{ achievement.name }}</h5>
+
+                            <p>{{ achievement.description }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-primary" ng-click="submitProject(project)" ng-disabled="createProjectForm.$invalid">{{
-            submitProjectLabel }}
+        <button class="btn btn-primary" ng-click="submitProject(selectedProject)"
+                ng-disabled="createProjectForm.$invalid || projectSubmitted" loading-btn="submitProjectLabel" show-loading="projectSubmitted">
         </button>
     </div>
 </form>

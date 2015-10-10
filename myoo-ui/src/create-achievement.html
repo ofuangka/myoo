@@ -1,24 +1,25 @@
-<form name="createAchievementForm" class="form">
+<form name="createAchievementForm" class="form" novalidate>
     <div class="modal-header">
         <a class="close" ng-click="$dismiss()"><i>&times;</i></a>
-        <h5>{{ modalTitle }}</h5>
+        <h4>{{ modalTitle }}</h4>
     </div>
     <div class="modal-body">
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.name.$dirty && createAchievementForm.name.$invalid}">
             <label>Name</label>
-            <input name="name" class="form-control" required="true" ng-model="achievement.name"/>
+            <input name="name" class="form-control" required="true" ng-model="selectedAchievement.name"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback"
                           ng-show="createAchievementForm.name.$dirty && createAchievementForm.name.$invalid"></span>
         </div>
         <div class="form-group">
             <label>Description</label>
-            <textarea name="description" class="form-control" ng-model="achievement.description"></textarea>
+            <textarea name="description" class="form-control" ng-model="selectedAchievement.description"></textarea>
         </div>
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.points.$dirty && createAchievementForm.points.$invalid}">
             <label>Points</label>
-            <input name="points" type="number" class="form-control" required="true" ng-model="achievement.points"/>
+            <input name="points" type="number" class="form-control" required="true"
+                   ng-model="selectedAchievement.points"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback"
                           ng-show="createAchievementForm.points.$dirty && createAchievementForm.points.$invalid"></span>
         </div>
@@ -28,8 +29,8 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-primary" ng-click="submitAchievement()" ng-disabled="createAchievementForm.$invalid">{{
-            submitAchievementLabel }}
+        <button class="btn btn-primary" ng-click="submitAchievement(selectedAchievement)"
+                ng-disabled="createAchievementForm.$invalid || achievementSubmitted" loading-btn="submitAchievementLabel" show-loading="achievementSubmitted">
         </button>
     </div>
 </form>

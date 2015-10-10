@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en" ng-app="Myoo">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>/myoo/</title>
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="myoo.css"/>
@@ -34,22 +36,17 @@
             <div class="row">
                 <div class="col-md-3" ng-controller="ProjectSidebarController">
                     <ul class="nav nav-pills nav-stacked">
-                        <li ng-repeat="project in userProjects | sort"><a href="">{{ project.name }}</a></li>
+                        <li ng-repeat="project in userProjects | orderBy : 'name'"><a href="">{{ project.name }}</a></li>
                     </ul>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9" ng-controller="RecordAchievementsController">
                     <div class="list-group">
-                        <a href="" class="list-group-item">
-                            <div class="thumbnail pull-left"></div>
-                            <h4>Achievement 1</h4>
-
-                            <p>Achievement 1 description</p>
-                        </a>
-                        <a href="" class="list-group-item">
-                            <div class="thumbnail pull-left"></div>
-                            <h4>Achievement 2</h4>
-
-                            <p>Achievement 2 description</p>
+                        <a href="" class="list-group-item" ng-repeat="achievement in projectAchievements" ng-click="recordAchievement(achievement)">
+                            <span class="badge">{{ achievement.points }}</span>
+                            <div class="thumbnail pull-left marginright-md marginbottom-none"><span class="achievementIcon"></span></div>
+                            <h4>{{ achievement.name }}</h4>
+                            <p>{{ achievement.description }}</p>
+                            <span class="clearfix"></span>
                         </a>
                     </div>
                 </div>
@@ -63,6 +60,7 @@
 <script src="components/angular/angular.min.js"></script>
 <script src="components/angular-resource/angular-resource.min.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="loading-btn.js"></script>
 <script src="myoo.js"></script>
 <script src="services.js"></script>
 </body>

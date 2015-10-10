@@ -17,4 +17,12 @@
 		<servlet-name>Jersey Servlet</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UI Redirect Servlet</servlet-name>
+		<servlet-class>com.myoo.web.UiRedirectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UI Redirect Servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 </web-app>

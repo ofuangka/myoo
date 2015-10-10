@@ -1,12 +1,73 @@
+.centered-tiles {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.centered-tiles > li {
+    display: inline;
+}
+
 .poster {
-    margin-bottom: 5px;
-    margin-right: 5px;
-    width: 180px;
+    display: inline-block;
     height: 200px;
+    margin-bottom: 0;
     overflow: hidden;
+}
+
+.poster:hover {
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .poster {
+        width: 184px;
+    }
+}
+
+@media (min-width: 992px) {
+    .poster {
+        width: 168px;
+    }
+}
+.achievementIcon {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
 }
 
 /* helper classes */
 .padding-md {
     padding: 15px;
+}
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+.marginright-md {
+    margin-right: 15px;
+}
+.marginbottom-none {
+    margin-bottom: 0;
 }
