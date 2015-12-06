@@ -2,8 +2,9 @@ package com.myoo.api.domain;
 
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,7 +20,8 @@ public class Record extends HasId {
 	@Null
 	private String userId;
 
-	@Size(min = 1, max = 100)
+	@Min(1)
+	@Max(10000)
 	private Integer points;
 
 	@Null

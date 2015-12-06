@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Named;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -14,6 +16,7 @@ import com.myoo.api.domain.Record;
 import com.myoo.api.support.GoogleDatastoreDao;
 import com.myoo.api.support.GoogleDatastoreEntityMapper;
 
+@Named
 public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements RecordDao {
 
 	private static final String KIND_RECORD = "Record";

@@ -1,5 +1,7 @@
 package com.myoo.api.domain;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,7 +21,8 @@ public class Achievement extends HasId {
 	@Size(min = 1, max = 100)
 	private String description;
 
-	@Size(min = 1, max = 100)
+	@Min(1)
+	@Max(10000)
 	private Integer points;
 
 	@NotBlank
