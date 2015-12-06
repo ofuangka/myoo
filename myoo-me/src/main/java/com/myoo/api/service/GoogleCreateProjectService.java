@@ -5,8 +5,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.myoo.api.dao.AchievementDao;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.dao.SubscriptionDao;
@@ -26,7 +24,8 @@ public class GoogleCreateProjectService implements CreateProjectService {
 	@Inject
 	SubscriptionDao subscriptionDao;
 
-	UserService userService = UserServiceFactory.getUserService();
+	@Inject
+	GoogleUserIdService userIdService;
 
 	@Override
 	public Project createProject(Project project) {
@@ -41,7 +40,7 @@ public class GoogleCreateProjectService implements CreateProjectService {
 		}
 		Subscription subscription = new Subscription();
 		subscription.setProjectId(ret.getId());
-		subscription.setUserId(userService.getCurrentUser().getUserId());
+		subscription.setUserId(userIdService.getUserId());
 		subscriptionDao.create(subscription);
 		return ret;
 	}

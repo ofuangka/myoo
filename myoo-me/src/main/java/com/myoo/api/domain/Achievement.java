@@ -1,16 +1,28 @@
 package com.myoo.api.domain;
 
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.myoo.api.support.HasId;
 
 @XmlRootElement
 public class Achievement extends HasId {
 
+	@NotBlank
 	private String projectId;
+
+	@Size(min = 1, max = 100)
 	private String name;
+
+	@Size(min = 1, max = 100)
 	private String description;
+
+	@Size(min = 1, max = 100)
 	private Integer points;
+
+	@NotBlank
 	private String frequency;
 
 	public String getName() {

@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Subscription;
+import com.myoo.api.service.UserIdService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -25,7 +26,10 @@ public class SubscriptionCollectionResource {
 
 	@Inject
 	private SubscriptionDao subscriptionDao;
-	
+
+	@Inject
+	private UserIdService userIdService;
+
 	@GET
 	public List<Subscription> list() {
 		return subscriptionDao.all();
@@ -33,6 +37,7 @@ public class SubscriptionCollectionResource {
 
 	@POST
 	public Subscription create(@Valid Subscription subscription) {
+		subscription.setUserId(userIdService.getUserId());
 		return subscriptionDao.create(subscription);
 	}
 

@@ -20,7 +20,7 @@ public class GoogleSubscriptionDao extends GoogleDatastoreDao<Subscription> impl
 
 	private static final String KIND_SUBSCRIPTION = "Subscription";
 	private static final String KEY_PROJECT_ID = "projectId";
-	private static final String KEY_USER_ID = "userId";
+	private static final String KEY_HASHED_USER_ID = "hashedUserId";
 
 	private static final GoogleDatastoreEntityMapper<Subscription> subscriptionMapper = new GoogleDatastoreEntityMapper<Subscription>() {
 
@@ -29,21 +29,21 @@ public class GoogleSubscriptionDao extends GoogleDatastoreDao<Subscription> impl
 			Subscription ret = new Subscription();
 			ret.setId(KeyFactory.keyToString(e.getKey()));
 			ret.setProjectId((String) e.getProperty(KEY_PROJECT_ID));
-			ret.setUserId((String) e.getProperty(KEY_USER_ID));
+			ret.setUserId((String) e.getProperty(KEY_HASHED_USER_ID));
 			return ret;
 		}
 
 		@Override
 		public void map(Subscription from, Entity to) {
 			to.setProperty(KEY_PROJECT_ID, from.getProjectId());
-			to.setProperty(KEY_USER_ID, from.getUserId());
+			to.setProperty(KEY_HASHED_USER_ID, from.getUserId());
 		}
 
 	};
 
 	public List<Subscription> getByUserId(String userId) {
 		Query query = new Query(KIND_SUBSCRIPTION);
-		query.setFilter(new FilterPredicate(KEY_USER_ID, FilterOperator.EQUAL, userId));
+		query.setFilter(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId));
 		return subscriptionMapper.map(getDatastore().prepare(query).asIterable());
 	}
 

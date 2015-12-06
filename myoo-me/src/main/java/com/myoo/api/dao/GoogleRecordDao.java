@@ -20,7 +20,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 	private static final String KEY_ACHIEVEMENT_ID = "achievementId";
 	private static final String KEY_POINTS = "points";
 	private static final String KEY_TS = "ts";
-	private static final String KEY_USER_ID = "userId";
+	private static final String KEY_HASHED_USER_ID = "hashedUserId";
 
 	private static final GoogleDatastoreEntityMapper<Record> recordMapper = new GoogleDatastoreEntityMapper<Record>() {
 
@@ -31,7 +31,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			ret.setAchievementId((String) e.getProperty(KEY_ACHIEVEMENT_ID));
 			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setTs((Date) e.getProperty(KEY_TS));
-			ret.setUserId((String) e.getProperty(KEY_USER_ID));
+			ret.setUserId((String) e.getProperty(KEY_HASHED_USER_ID));
 			return ret;
 		}
 
@@ -40,7 +40,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			to.setProperty(KEY_ACHIEVEMENT_ID, from.getAchievementId());
 			to.setProperty(KEY_POINTS, from.getPoints());
 			to.setProperty(KEY_TS, from.getTs());
-			to.setProperty(KEY_USER_ID, from.getUserId());
+			to.setProperty(KEY_HASHED_USER_ID, from.getUserId());
 		}
 
 	};
@@ -48,7 +48,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 	@Override
 	public List<Record> getByUserId(String userId) {
 		Query query = new Query(KIND_RECORD);
-		query.setFilter(new FilterPredicate(KEY_USER_ID, FilterOperator.EQUAL, userId));
+		query.setFilter(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId));
 		return recordMapper.map(getDatastore().prepare(query).asIterable());
 	}
 
