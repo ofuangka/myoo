@@ -1,24 +1,17 @@
-package com.myoo.api.achievement;
+package com.myoo.api.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public class Achievement {
+import com.myoo.api.support.HasId;
 
-	private String id;
+@XmlRootElement
+public class Achievement extends HasId {
+
 	private String projectId;
 	private String name;
 	private String description;
 	private int points;
 	private String frequency;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

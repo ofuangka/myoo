@@ -1,4 +1,4 @@
-package com.myoo.api.project;
+package com.myoo.api.domain;
 
 import java.util.List;
 
@@ -6,11 +6,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.myoo.api.achievement.Achievement;
+import com.myoo.api.support.HasId;
 
 @XmlRootElement
-public class Project {
-	private String id;
+public class Project extends HasId {
 	private List<Achievement> achievements;
 
 	@NotNull
@@ -19,14 +18,6 @@ public class Project {
 
 	@Size(max = 100)
 	private String description;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

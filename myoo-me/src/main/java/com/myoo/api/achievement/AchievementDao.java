@@ -2,7 +2,13 @@ package com.myoo.api.achievement;
 
 import java.util.List;
 
-public interface AchievementService {
+import com.myoo.api.domain.Achievement;
+
+public interface AchievementDao {
+
+	Achievement get(String achievementId);
+
+	List<Achievement> all();
 
 	/**
 	 * Fetches all Achievements related to the given projectId
@@ -10,7 +16,7 @@ public interface AchievementService {
 	 * @param projectId
 	 * @return
 	 */
-	List<Achievement> query(String projectId);
+	List<Achievement> getByProjectId(String projectId);
 
 	/**
 	 * Creates a new Achievement and returns it. Returns null if something went
@@ -29,4 +35,8 @@ public interface AchievementService {
 	 * @return
 	 */
 	Achievement update(Achievement achievement);
+
+	Achievement delete(String achievementId);
+
+	void deleteByProjectId(String projectId);
 }

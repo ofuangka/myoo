@@ -1,23 +1,22 @@
 package com.myoo.api.achievement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Transaction;
-import com.myoo.api.datastore.GoogleDatastoreEntityMapper;
-import com.myoo.api.datastore.GoogleDatastoreService;
+import com.myoo.api.domain.Achievement;
+import com.myoo.api.support.GoogleDatastoreDao;
+import com.myoo.api.support.GoogleDatastoreEntityMapper;
 
 @Named
-public class GoogleDatastoreAchievementService extends GoogleDatastoreService implements AchievementService {
+public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implements AchievementDao {
 
 	private static final String KIND_ACHIEVEMENT = "Achievement";
 
@@ -36,7 +35,7 @@ public class GoogleDatastoreAchievementService extends GoogleDatastoreService im
 			ret.setProjectId((String) e.getProperty(KEY_PROJECT_ID));
 			ret.setName((String) e.getProperty(KEY_NAME));
 			ret.setDescription((String) e.getProperty(KEY_DESCRIPTION));
-			ret.setPoints((Integer) e.getProperty(KEY_POINTS));
+			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setFrequency((String) e.getProperty(KEY_FREQUENCY));
 			return ret;
 		}
@@ -53,42 +52,32 @@ public class GoogleDatastoreAchievementService extends GoogleDatastoreService im
 	};
 
 	@Override
-	public List<Achievement> query(String projectId) {
+	public List<Achievement> getByProjectId(String projectId) {
 		Query query = new Query(KIND_ACHIEVEMENT);
 		query.setFilter(new FilterPredicate(KEY_PROJECT_ID, FilterOperator.EQUAL, projectId));
 		return achievementMapper.map(getDatastore().prepare(query).asIterable());
 	}
 
 	@Override
-	public Achievement create(Achievement achievement) {
-		DatastoreService datastore = getDatastore();
-		Entity entity = new Entity(KIND_ACHIEVEMENT);
-		achievementMapper.map(achievement, entity);
-		Key key = datastore.put(entity);
-		achievement.setId(KeyFactory.keyToString(key));
-		return achievement;
+	protected GoogleDatastoreEntityMapper<Achievement> getMapper() {
+		return achievementMapper;
 	}
 
 	@Override
-	public Achievement update(Achievement achievement) {
-		Achievement ret = null;
-		DatastoreService datastore = getDatastore();
-		Transaction txn = datastore.beginTransaction();
-		try {
-			Key achievementKey = KeyFactory.stringToKey(achievement.getId());
-			Entity achievementEntity = datastore.get(achievementKey);
-			achievementMapper.map(achievement, achievementEntity);
-			datastore.put(achievementEntity);
-			txn.commit();
-			ret = achievement;
-		} catch (EntityNotFoundException e) {
-			// do nothing
-		} finally {
-			if (txn.isActive()) {
-				txn.rollback();
+	protected String getKind() {
+		return KIND_ACHIEVEMENT;
+	}
+
+	@Override
+	public void deleteByProjectId(String projectId) {
+		List<Achievement> achievementsToDelete = getByProjectId(projectId);
+		if (achievementsToDelete != null) {
+			List<Key> keys = new ArrayList<Key>();
+			for (Achievement achievementToDelete : achievementsToDelete) {
+				keys.add(KeyFactory.stringToKey(achievementToDelete.getId()));
 			}
+			getDatastore().delete(keys);
 		}
-		return ret;
 	}
 
 }
