@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.myoo.api.dao.RecordDao;
 import com.myoo.api.domain.Record;
-import com.myoo.api.service.UserIdService;
+import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -27,7 +27,7 @@ public class RecordCollectionResource {
 	private RecordDao recordDao;
 
 	@Inject
-	private UserIdService userIdService;
+	private SecurityService securityService;
 
 	@Context
 	private ResourceContext context;
@@ -35,7 +35,7 @@ public class RecordCollectionResource {
 	@GET
 	public List<Record> list(@QueryParam("own") boolean isOwn) {
 		if (isOwn) {
-			return recordDao.getByUserId(userIdService.getUserId());
+			return recordDao.getByUserId(securityService.getUserId());
 		} else {
 			return recordDao.all();
 		}
@@ -43,7 +43,7 @@ public class RecordCollectionResource {
 
 	@POST
 	public Record create(@Valid Record record) {
-		record.setUserId(userIdService.getUserId());
+		record.setUserId(securityService.getUserId());
 		record.setTs(Calendar.getInstance().getTime());
 		return recordDao.create(record);
 	}

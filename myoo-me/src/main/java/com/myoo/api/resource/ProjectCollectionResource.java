@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Project;
 import com.myoo.api.service.CreateProjectService;
-import com.myoo.api.service.UserIdService;
+import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -30,7 +30,7 @@ public class ProjectCollectionResource {
 	private CreateProjectService createProjectService;
 
 	@Inject
-	private UserIdService userIdService;
+	private SecurityService securityService;
 
 	@Context
 	private ResourceContext context;
@@ -38,7 +38,7 @@ public class ProjectCollectionResource {
 	@GET
 	public List<Project> list(@QueryParam("own") boolean isOwn) {
 		if (isOwn) {
-			return projectDao.getByUserId(userIdService.getUserId());
+			return projectDao.getByUserId(securityService.getUserId());
 		} else {
 			return projectDao.all();
 		}

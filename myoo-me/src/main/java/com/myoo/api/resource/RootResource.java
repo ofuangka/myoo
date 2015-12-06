@@ -34,4 +34,9 @@ public class RootResource {
 	public RecordCollectionResource getRecordCollectionResource() {
 		return context.getResource(RecordCollectionResource.class);
 	}
+
+	@Path("/modifiers")
+	public ModifierCollectionResource getModifierCollectionResource() {
+		return context.getResource(ModifierCollectionResource.class);
+	}
 }

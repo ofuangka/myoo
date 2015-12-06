@@ -1,8 +1,10 @@
 package com.myoo.api.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,6 +20,15 @@ public class Project extends HasId {
 
 	@Size(max = 100)
 	private String description;
+
+	@Null
+	private String createdBy;
+
+	@Null
+	private Date createdTs;
+
+	@Null
+	private Date lastUpdatedTs;
 
 	public String getName() {
 		return name;
@@ -41,5 +52,29 @@ public class Project extends HasId {
 
 	public void setAchievements(List<Achievement> achievements) {
 		this.achievements = achievements;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedTs() {
+		return createdTs;
+	}
+
+	public void setCreatedTs(Date createdTs) {
+		this.createdTs = createdTs;
+	}
+
+	public Date getLastUpdatedTs() {
+		return lastUpdatedTs;
+	}
+
+	public void setLastUpdatedTs(Date lastUpdatedTs) {
+		this.lastUpdatedTs = lastUpdatedTs;
 	}
 }

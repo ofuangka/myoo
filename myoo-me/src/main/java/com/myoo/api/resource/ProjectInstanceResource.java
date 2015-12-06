@@ -18,6 +18,7 @@ import com.myoo.api.dao.RecordDao;
 import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Achievement;
 import com.myoo.api.domain.Project;
+import com.myoo.api.service.SecurityService;
 
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -35,6 +36,9 @@ public class ProjectInstanceResource {
 	@Inject
 	private RecordDao recordDao;
 
+	@Inject
+	private SecurityService userAccessService;
+
 	@GET
 	public Project read(@PathParam("projectId") String projectId) {
 		return projectDao.get(projectId);
@@ -42,22 +46,30 @@ public class ProjectInstanceResource {
 
 	@POST
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
-		project.setId(projectId);
-		return projectDao.update(project);
+		if (userAccessService.isUserAllowed(projectId)) {
+			project.setId(projectId);
+			return projectDao.update(project);
+		} else {
+			throw new SecurityException("User is not allowed to update that Project");
+		}
 	}
 
 	@DELETE
 	public Project delete(@PathParam("projectId") String projectId) {
-		Project ret = projectDao.delete(projectId);
-		List<Achievement> achievements = achievementDao.getByProjectId(projectId);
-		if (achievements != null) {
-			for (Achievement achievement : achievements) {
-				recordDao.deleteByAchievementId(achievement.getId());
+		if (userAccessService.isUserAllowed(projectId)) {
+			Project ret = projectDao.delete(projectId);
+			List<Achievement> achievements = achievementDao.getByProjectId(projectId);
+			if (achievements != null) {
+				for (Achievement achievement : achievements) {
+					recordDao.deleteByAchievementId(achievement.getId());
+				}
 			}
+			achievementDao.deleteByProjectId(projectId);
+			subscriptionDao.deleteByProjectId(projectId);
+			return ret;
+		} else {
+			throw new SecurityException("User is not allowed to delete that Project");
 		}
-		achievementDao.deleteByProjectId(projectId);
-		subscriptionDao.deleteByProjectId(projectId);
-		return ret;
 	}
 
 }

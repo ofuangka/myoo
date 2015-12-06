@@ -9,13 +9,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Subscription;
-import com.myoo.api.service.UserIdService;
+import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -28,17 +29,28 @@ public class SubscriptionCollectionResource {
 	private SubscriptionDao subscriptionDao;
 
 	@Inject
-	private UserIdService userIdService;
+	private SecurityService securityService;
+
+	@Inject
+	private SecurityService userAccessService;
 
 	@GET
-	public List<Subscription> list() {
-		return subscriptionDao.all();
+	public List<Subscription> list(@QueryParam("own") boolean isOwn) {
+		if (isOwn) {
+			return subscriptionDao.getByUserId(securityService.getUserId());
+		} else {
+			return subscriptionDao.all();
+		}
 	}
 
 	@POST
 	public Subscription create(@Valid Subscription subscription) {
-		subscription.setUserId(userIdService.getUserId());
-		return subscriptionDao.create(subscription);
+		if (userAccessService.isSelf(subscription.getUserId())) {
+			subscription.setUserId(securityService.getUserId());
+			return subscriptionDao.create(subscription);
+		} else {
+			throw new SecurityException("Cannot create Subscriptions for other Users");
+		}
 	}
 
 	@Path("/{subscriptionId}")

@@ -16,16 +16,16 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myoo.api.dao.AchievementDao;
-import com.myoo.api.domain.Achievement;
+import com.myoo.api.dao.ModifierDao;
+import com.myoo.api.domain.Modifier;
 import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-public class AchievementCollectionResource {
+public class ModifierCollectionResource {
 
 	@Inject
-	private AchievementDao achievementDao;
+	private ModifierDao modifierDao;
 
 	@Inject
 	private SecurityService userAccessService;
@@ -34,25 +34,25 @@ public class AchievementCollectionResource {
 	private ResourceContext context;
 
 	@GET
-	public List<Achievement> list(@QueryParam("pid") String projectId) {
+	public List<Modifier> list(@QueryParam("pid") String projectId) {
 		if (StringUtils.isNotBlank(projectId)) {
-			return achievementDao.getByProjectId(projectId);
+			return modifierDao.getByProjectId(projectId);
 		} else {
-			return achievementDao.all();
+			return modifierDao.all();
 		}
 	}
 
 	@POST
-	public Achievement create(@Valid Achievement achievement) {
-		if (userAccessService.isUserAllowed(achievement.getProjectId())) {
-			return achievementDao.create(achievement);
+	public Modifier create(@Valid Modifier modifier) {
+		if (userAccessService.isUserAllowed(modifier.getProjectId())) {
+			return modifierDao.create(modifier);
 		} else {
-			throw new SecurityException("User is not allowed to create an Achievement for that Project");
+			throw new SecurityException("User is not allowed to add Modifiers for that Project");
 		}
 	}
 
-	@Path("/{achievementId}")
-	public AchievementInstanceResource getAchievementInstanceResource() {
-		return context.getResource(AchievementInstanceResource.class);
+	@Path("{modifierId}")
+	public ModifierInstanceResource getModifierInstanceResource() {
+		return context.getResource(ModifierInstanceResource.class);
 	}
 }
