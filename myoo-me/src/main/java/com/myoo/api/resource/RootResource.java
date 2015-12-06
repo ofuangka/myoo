@@ -24,4 +24,9 @@ public class RootResource {
 	public AchievementCollectionResource getAchievementCollectionResource() {
 		return context.getResource(AchievementCollectionResource.class);
 	}
+
+	@Path("/records")
+	public RecordCollectionResource getRecordCollectionResource() {
+		return context.getResource(RecordCollectionResource.class);
+	}
 }

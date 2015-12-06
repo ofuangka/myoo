@@ -1,4 +1,4 @@
-package com.myoo.api.subscription;
+package com.myoo.api.dao;
 
 import java.util.ArrayList;
 import java.util.List;

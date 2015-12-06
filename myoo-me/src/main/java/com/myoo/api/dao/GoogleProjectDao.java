@@ -1,4 +1,4 @@
-package com.myoo.api.project;
+package com.myoo.api.dao;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
 import com.myoo.api.domain.Project;
 import com.myoo.api.domain.Subscription;
-import com.myoo.api.subscription.SubscriptionDao;
 import com.myoo.api.support.GoogleDatastoreDao;
 import com.myoo.api.support.GoogleDatastoreEntityMapper;
 

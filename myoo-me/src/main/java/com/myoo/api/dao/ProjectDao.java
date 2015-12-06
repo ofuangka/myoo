@@ -1,4 +1,4 @@
-package com.myoo.api.project;
+package com.myoo.api.dao;
 
 import java.util.List;
 

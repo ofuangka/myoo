@@ -10,7 +10,7 @@ public class Achievement extends HasId {
 	private String projectId;
 	private String name;
 	private String description;
-	private int points;
+	private Integer points;
 	private String frequency;
 
 	public String getName() {

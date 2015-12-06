@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.myoo.api.achievement.AchievementDao;
+import com.myoo.api.dao.AchievementDao;
 import com.myoo.api.domain.Achievement;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

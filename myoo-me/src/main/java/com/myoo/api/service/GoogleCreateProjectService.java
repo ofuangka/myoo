@@ -1,4 +1,4 @@
-package com.myoo.api.project;
+package com.myoo.api.service;
 
 import java.util.List;
 
@@ -7,11 +7,12 @@ import javax.inject.Named;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.myoo.api.achievement.AchievementDao;
+import com.myoo.api.dao.AchievementDao;
+import com.myoo.api.dao.ProjectDao;
+import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Achievement;
 import com.myoo.api.domain.Project;
 import com.myoo.api.domain.Subscription;
-import com.myoo.api.subscription.SubscriptionDao;
 
 @Named
 public class GoogleCreateProjectService implements CreateProjectService {

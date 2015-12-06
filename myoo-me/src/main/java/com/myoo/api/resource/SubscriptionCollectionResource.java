@@ -13,8 +13,8 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Subscription;
-import com.myoo.api.subscription.SubscriptionDao;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -16,9 +16,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Project;
-import com.myoo.api.project.CreateProjectService;
-import com.myoo.api.project.ProjectDao;
+import com.myoo.api.service.CreateProjectService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
