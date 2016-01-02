@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Project;
-import com.myoo.api.service.CreateProjectService;
+import com.myoo.api.service.ProjectService;
 import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -27,7 +27,7 @@ public class ProjectCollectionResource {
 	private ProjectDao projectDao;
 
 	@Inject
-	private CreateProjectService createProjectService;
+	private ProjectService projectService;
 
 	@Inject
 	private SecurityService securityService;
@@ -46,7 +46,7 @@ public class ProjectCollectionResource {
 
 	@POST
 	public Project create(@Valid Project project) {
-		return createProjectService.createProject(project);
+		return projectService.createProject(project);
 	}
 
 	@Path("/{projectId}")

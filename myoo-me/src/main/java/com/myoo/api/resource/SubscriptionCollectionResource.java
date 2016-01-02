@@ -31,9 +31,6 @@ public class SubscriptionCollectionResource {
 	@Inject
 	private SecurityService securityService;
 
-	@Inject
-	private SecurityService userAccessService;
-
 	@GET
 	public List<Subscription> list(@QueryParam("own") boolean isOwn) {
 		if (isOwn) {
@@ -45,12 +42,9 @@ public class SubscriptionCollectionResource {
 
 	@POST
 	public Subscription create(@Valid Subscription subscription) {
-		if (userAccessService.isSelf(subscription.getUserId())) {
-			subscription.setUserId(securityService.getUserId());
-			return subscriptionDao.create(subscription);
-		} else {
-			throw new SecurityException("Cannot create Subscriptions for other Users");
-		}
+		subscription.setUserId(securityService.getUserId());
+		return subscriptionDao.create(subscription);
+
 	}
 
 	@Path("/{subscriptionId}")

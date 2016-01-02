@@ -13,7 +13,7 @@ import com.myoo.api.domain.Project;
 import com.myoo.api.domain.Subscription;
 
 @Named
-public class CreateProjectService {
+public class ProjectService {
 
 	@Inject
 	private ProjectDao projectDao;

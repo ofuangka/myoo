@@ -44,7 +44,7 @@ public class SubscriptionInstanceResource {
 		if (userAccessService.isSelf(subscriptionDao.get(subscriptionId).getUserId())) {
 			return subscriptionDao.delete(subscriptionId);
 		} else {
-			throw new SecurityException("User cannto delete Subscriptions for other Users");
+			throw new SecurityException("User cannot delete Subscriptions for other Users");
 		}
 	}
 }
