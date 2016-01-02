@@ -15,12 +15,9 @@
                                          ng-click="showEditProject(project)">Edit</a></p></div>
             <p class="poster-footer">
             <div class="btn-group btn-group-xs pull-right"><a class="btn btn-default"
-                                                              title="Erase all progress on this project"
-                                                              ng-click="showEraseConfirm(project)"><i
-                    class="glyphicon glyphicon-erase"></i></a> <a class="btn btn-default"
-                                                                  title="{{ isSubscribed(project) ? 'Unsubscribe from this project' : 'Subscribe to this project' }}"
-                                                                  ng-click="toggleSubscription(project)"
-                                                                  ng-class="{active: isSubscribed(project)}"><i
+                                                              title="{{ isSubscribed(project) ? 'Unsubscribe from this project' : 'Subscribe to this project' }}"
+                                                              ng-click="toggleSubscription(project)"
+                                                              ng-class="{active: isSubscribed(project)}"><i
                     class="glyphicon glyphicon-ok bnl"></i>{{ isSubscribed(project) ? 'Unsubscribe' : 'Subscribe' }}</a>
             </div>
             </p></div>

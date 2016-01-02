@@ -4,8 +4,8 @@
 
 .poster {
     display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin-right: 4px;
+    margin-bottom: 4px;
     vertical-align: top
 }
 
@@ -26,7 +26,7 @@
 
 @media (min-width: 320px) {
     .poster {
-        width: 170px
+        width: 156px
     }
 }
 
