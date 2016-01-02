@@ -1,73 +1,88 @@
-.centered-tiles {
-    list-style: none outside none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-.centered-tiles > li {
-    display: inline;
+.padding-md, .poster {
+    padding: 15px
 }
 
 .poster {
     display: inline-block;
-    height: 200px;
-    margin-bottom: 0;
-    overflow: hidden;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    vertical-align: top
 }
 
-.poster:hover {
-    text-decoration: none;
+.poster-heading {
+    height: 60px;
+    overflow: hidden
+}
+
+.poster-body {
+    height: 50px;
+    overflow: hidden
+}
+
+.poster-footer {
+    height: 20px;
+    overflow: hidden
+}
+
+@media (min-width: 320px) {
+    .poster {
+        width: 170px
+    }
 }
 
 @media (min-width: 768px) {
     .poster {
-        width: 184px;
+        width: 170px
     }
 }
 
 @media (min-width: 992px) {
     .poster {
-        width: 168px;
+        width: 170px
     }
 }
+
 .achievementIcon {
     display: inline-block;
     width: 48px;
-    height: 48px;
+    height: 48px
 }
 
-/* helper classes */
-.padding-md {
-    padding: 15px;
-}
 .glyphicon-spin {
-    -webkit-animation: spin 1000ms infinite linear;
-    animation: spin 1000ms infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear
 }
+
 @-webkit-keyframes spin {
     0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
     }
     100% {
         -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
+        transform: rotate(359deg)
     }
 }
+
 @keyframes spin {
     0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
     }
     100% {
         -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
+        transform: rotate(359deg)
     }
 }
+
 .marginright-md {
-    margin-right: 15px;
+    margin-right: 15px
 }
+
 .marginbottom-none {
-    margin-bottom: 0;
+    margin-bottom: 0
+}
+
+.bnl {
+    margin-right: 4px
 }

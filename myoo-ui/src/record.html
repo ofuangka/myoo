@@ -1,0 +1,14 @@
+<div ng-controller="RecordController">
+    <div class="list-group"><p class="text-center" ng-if="isLoadingAchievements()"><i
+            class="glyphicon glyphicon-refresh glyphicon-spin"></i></p>
+        <p class="alert alert-info" ng-if="!isLoadingAchievements() && projectAchievements.length === 0">There are
+            currently no achievements for this project.</p><a href="" class="list-group-item"
+                                                              ng-repeat="achievement in projectAchievements | orderBy: 'name'"
+                                                              ng-click="recordAchievement(achievement)"><span
+                class="badge">{{ achievement.points }}</span>
+            <div class="thumbnail pull-left marginright-md marginbottom-none"><span class="achievementIcon"></span>
+            </div>
+            <h4>{{ achievement.name }}</h4>
+            <div>{{ achievement.description }}</div>
+            <span class="clearfix"></span></a></div>
+</div>

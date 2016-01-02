@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en" ng-app="Myoo">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>/myoo/</title>
+<head><title>/myoo/</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="myoo.css"/>
 </head>
@@ -12,53 +11,56 @@
     <h1><a href="">/myoo/</a>
         <small>Ask for it by name</small>
     </h1>
-    <div class="panel panel-info">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="pull-right" dropdown>
-                <a href="" dropdown-toggle><i class="glyphicon glyphicon-menu-hamburger"></i></a>
-                <ul class="dropdown-menu dropdown-menu-right" ng-controller="HamburgerMenuController">
-                    <li><a href="" ng-click="showManageProjects()">Manage projects</a></li>
+            <div class="pull-right" dropdown><a href="" dropdown-toggle><i class="glyphicon glyphicon-chevron-down"></i></a>
+                <ul class="dropdown-menu dropdown-menu-right" ng-controller="MainMenuController">
+                    <li><a href="" ng-click="showManageSubscriptions()">Manage subscriptions</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="">Sign out</a></li>
+                    <li class="dropdown-header">Signed in as {{ self.username || '...'}}</li>
+                    <li><a href="{{ self.logoutUrl }}"><span ng-if="self.logoutUrl">Sign out</span> <span
+                            ng-if="!self.logoutUrl">...</span></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-9 col-md-offset-3 padding-md">
-                    <ul class="nav nav-pills">
-                        <li class="active"><a href="">Record</a></li>
-                        <li><a href="">Review</a></li>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 padding-md"
+                     ng-controller="ProjectTopNavController">
+                    <ul class="nav nav-pills" ng-if="projectId">
+                        <li ng-class="{active: sectionId === 'record'}"><a
+                                ui-sref="section({projectId: projectId, sectionId: 'record'})">Record</a></li>
+                        <li ng-class="{active: sectionId === 'review'}"><a
+                                ui-sref="section({projectId: projectId, sectionId: 'review'})">Review</a></li>
                     </ul>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3" ng-controller="ProjectSidebarController">
+                <div class="col-sm-3 col-md-2" ng-controller="ProjectSidebarController"><p class="text-center"
+                                                                                           ng-if="isLoadingProjects()">
+                    <i class="glyphicon glyphicon-refresh glyphicon-spin"></i></p>
                     <ul class="nav nav-pills nav-stacked">
-                        <li ng-repeat="project in userProjects | orderBy : 'name'"><a href="">{{ project.name }}</a></li>
+                        <li ng-repeat="project in ownProjects | orderBy : 'name'"
+                            ng-class="{active: projectId === project.id}"><a
+                                ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})">{{
+                            project.name }}</a></li>
                     </ul>
-                </div>
-                <div class="col-md-9" ng-controller="RecordAchievementsController">
-                    <div class="list-group">
-                        <a href="" class="list-group-item" ng-repeat="achievement in projectAchievements" ng-click="recordAchievement(achievement)">
-                            <span class="badge">{{ achievement.points }}</span>
-                            <div class="thumbnail pull-left marginright-md marginbottom-none"><span class="achievementIcon"></span></div>
-                            <h4>{{ achievement.name }}</h4>
-                            <p>{{ achievement.description }}</p>
-                            <span class="clearfix"></span>
-                        </a>
-                    </div>
+                    <p class="text-center padding-md"><a href="" class="btn btn-default" ng-click="showCreateProject()">Create
+                        project</a></p></div>
+                <div class="col-sm-9 col-md-10">
+                    <div ui-view></div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
-            <small>&copy; 2015 Osha Fuangkasae</small>
+            <small>&copy; 2016 Osha Fuangkasae</small>
         </div>
     </div>
 </div>
 <script src="components/angular/angular.min.js"></script>
 <script src="components/angular-resource/angular-resource.min.js"></script>
+<script src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="loading-btn.js"></script>
 <script src="myoo.js"></script>
