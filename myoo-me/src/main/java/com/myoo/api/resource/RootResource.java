@@ -1,19 +1,29 @@
 package com.myoo.api.resource;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.myoo.api.domain.User;
+import com.myoo.api.service.SecurityService;
+
 @Path("/")
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class RootResource {
 
+	private static final String URL_LOGOUT_REDIRECT = "http://myoo-me.appspot.com/";
+
 	@Context
 	private ResourceContext context;
+
+	@Inject
+	private SecurityService securityService;
 
 	@Path("/projects")
 	public ProjectCollectionResource getProjectCollectionResource() {
@@ -38,5 +48,14 @@ public class RootResource {
 	@Path("/modifiers")
 	public ModifierCollectionResource getModifierCollectionResource() {
 		return context.getResource(ModifierCollectionResource.class);
+	}
+
+	@GET
+	@Path("/users/self")
+	public User getUser() {
+		User ret = new User();
+		ret.setUsername(securityService.getUsername());
+		ret.setLogoutUrl(securityService.getLogoutUrl(URL_LOGOUT_REDIRECT));
+		return ret;
 	}
 }

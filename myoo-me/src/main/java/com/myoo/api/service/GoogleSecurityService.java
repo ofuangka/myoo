@@ -62,5 +62,15 @@ public class GoogleSecurityService implements SecurityService {
 	public boolean isSelf(String userId) {
 		return StringUtils.equals(userId, getUserId());
 	}
+	
+	@Override
+	public String getLogoutUrl(String afterUrl) {
+		return userService.createLogoutURL(afterUrl);
+	}
+	
+	@Override
+	public String getUsername() {
+		return userService.getCurrentUser().getNickname();
+	}
 
 }
