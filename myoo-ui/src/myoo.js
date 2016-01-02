@@ -1,6 +1,3 @@
-/**
- * Created by ofuangka on 9/27/15.
- */
 (function wrapper(angular) {
     function getIsResourceLoadingFn(resource) {
         return function isResourceLoading() {
