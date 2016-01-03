@@ -1,5 +1,7 @@
 package com.myoo.api.resource;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,7 +49,12 @@ public class ProjectInstanceResource {
 	@POST
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
 		if (userAccessService.isUserAllowed(projectId)) {
+			Project original = projectDao.get(projectId);
+			Date now = Calendar.getInstance().getTime();
 			project.setId(projectId);
+			project.setLastUpdatedTs(now);
+			project.setCreatedBy(original.getCreatedBy());
+			project.setCreatedTs(original.getCreatedTs());
 			return projectDao.update(project);
 		} else {
 			throw new SecurityException("User is not allowed to update that Project");

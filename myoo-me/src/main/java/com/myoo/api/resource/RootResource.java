@@ -54,6 +54,7 @@ public class RootResource {
 	@Path("/users/self")
 	public User getUser() {
 		User ret = new User();
+		ret.setId(securityService.getUserId());
 		ret.setUsername(securityService.getUsername());
 		ret.setLogoutUrl(securityService.getLogoutUrl(URL_LOGOUT_REDIRECT));
 		return ret;

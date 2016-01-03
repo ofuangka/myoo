@@ -1,6 +1,7 @@
 package com.myoo.api.resource;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,8 +44,9 @@ public class RecordCollectionResource {
 
 	@POST
 	public Record create(@Valid Record record) {
+		Date now = Calendar.getInstance().getTime();
 		record.setUserId(securityService.getUserId());
-		record.setTs(Calendar.getInstance().getTime());
+		record.setTs(now);
 		return recordDao.create(record);
 	}
 

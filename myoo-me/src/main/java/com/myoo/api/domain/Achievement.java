@@ -15,7 +15,7 @@ public class Achievement extends HasId {
 	@NotBlank
 	private String projectId;
 
-	@Size(min = 1, max = 100)
+	@Size(min = 1, max = 30)
 	private String name;
 
 	@Size(min = 1, max = 100)

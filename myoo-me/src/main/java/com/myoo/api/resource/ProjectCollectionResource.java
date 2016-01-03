@@ -1,5 +1,7 @@
 package com.myoo.api.resource;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,6 +48,10 @@ public class ProjectCollectionResource {
 
 	@POST
 	public Project create(@Valid Project project) {
+		Date now = Calendar.getInstance().getTime();
+		project.setCreatedBy(securityService.getUserId());
+		project.setCreatedTs(now);
+		project.setLastUpdatedTs(now);
 		return projectService.createProject(project);
 	}
 

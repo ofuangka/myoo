@@ -1,5 +1,6 @@
 package com.myoo.api.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +23,9 @@ public class GoogleProjectDao extends GoogleDatastoreDao<Project> implements Pro
 	private static final String KIND_PROJECT = "Project";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_DESCRIPTION = "description";
+	private static final String KEY_CREATED_BY = "createdBy";
+	private static final String KEY_CREATED_TS = "createdTs";
+	private static final String KEY_LAST_UPDATED_TS = "lastUpdatedTs";
 
 	@Inject
 	private SubscriptionDao subscriptionService;
@@ -34,6 +38,9 @@ public class GoogleProjectDao extends GoogleDatastoreDao<Project> implements Pro
 			ret.setId(KeyFactory.keyToString(e.getKey()));
 			ret.setName((String) e.getProperty(KEY_NAME));
 			ret.setDescription((String) e.getProperty(KEY_DESCRIPTION));
+			ret.setCreatedBy((String) e.getProperty(KEY_CREATED_BY));
+			ret.setCreatedTs((Date) e.getProperty(KEY_CREATED_TS));
+			ret.setLastUpdatedTs((Date) e.getProperty(KEY_LAST_UPDATED_TS));
 			return ret;
 		}
 
@@ -41,6 +48,9 @@ public class GoogleProjectDao extends GoogleDatastoreDao<Project> implements Pro
 		public void map(Project from, Entity to) {
 			to.setProperty(KEY_NAME, from.getName());
 			to.setProperty(KEY_DESCRIPTION, from.getDescription());
+			to.setProperty(KEY_CREATED_BY, from.getCreatedBy());
+			to.setProperty(KEY_CREATED_TS, from.getCreatedTs());
+			to.setProperty(KEY_LAST_UPDATED_TS, from.getLastUpdatedTs());
 		}
 	};
 

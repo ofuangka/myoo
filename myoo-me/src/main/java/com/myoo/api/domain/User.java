@@ -2,8 +2,10 @@ package com.myoo.api.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.myoo.api.support.HasId;
+
 @XmlRootElement
-public class User {
+public class User extends HasId {
 
 	private String username;
 	private String logoutUrl;
