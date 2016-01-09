@@ -19,5 +19,7 @@ public interface SubscriptionDao {
 	Subscription delete(String subscriptionId);
 
 	void deleteByProjectId(String projectId);
+	
+	List<Subscription> getByProjectId(String projectId);
 
 }
