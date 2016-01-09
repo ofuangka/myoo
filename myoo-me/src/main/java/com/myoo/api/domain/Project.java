@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,13 +20,10 @@ public class Project extends HasId {
 	@Size(max = 100)
 	private String description;
 
-	@Null
 	private String createdBy;
 
-	@Null
 	private Date createdTs;
 
-	@Null
 	private Date lastUpdatedTs;
 
 	public String getName() {
