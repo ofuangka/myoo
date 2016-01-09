@@ -49,6 +49,16 @@ public class ProjectInstanceResource {
 	@POST
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
 		if (userAccessService.isUserAllowed(projectId)) {
+			// delete and recreate all Achievements
+			List<Achievement> achievements = project.getAchievements();
+			achievementDao.deleteByProjectId(projectId);
+			if (achievements != null) {
+				for (Achievement achievement : achievements) {
+
+					achievementDao.create(achievement);
+				}
+			}
+
 			Project original = projectDao.get(projectId);
 			Date now = Calendar.getInstance().getTime();
 			project.setId(projectId);

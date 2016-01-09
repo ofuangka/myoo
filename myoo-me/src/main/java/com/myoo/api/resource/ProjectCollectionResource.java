@@ -17,9 +17,10 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.myoo.api.dao.AchievementDao;
 import com.myoo.api.dao.ProjectDao;
+import com.myoo.api.domain.Achievement;
 import com.myoo.api.domain.Project;
-import com.myoo.api.service.ProjectService;
 import com.myoo.api.service.SecurityService;
 
 @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -30,7 +31,7 @@ public class ProjectCollectionResource {
 	private ProjectDao projectDao;
 
 	@Inject
-	private ProjectService projectService;
+	private AchievementDao achievementDao;
 
 	@Inject
 	private SecurityService securityService;
@@ -53,7 +54,16 @@ public class ProjectCollectionResource {
 		project.setCreatedBy(securityService.getUserId());
 		project.setCreatedTs(now);
 		project.setLastUpdatedTs(now);
-		return projectService.createProject(project);
+
+		Project ret = projectDao.create(project);
+		List<Achievement> achievements = project.getAchievements();
+		if (achievements != null) {
+			for (Achievement achievement : achievements) {
+				achievement.setProjectId(ret.getId());
+				achievementDao.create(achievement);
+			}
+		}
+		return ret;
 	}
 
 	@Path("/{projectId}")
