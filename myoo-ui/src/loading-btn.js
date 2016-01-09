@@ -6,9 +6,12 @@
                 restrict: 'EA',
                 scope: {
                     label: '=loadingBtn',
-                    showLoading: '='
+                    showLoading: '=',
+                    useEllipses: '@'
                 },
-                template: '<i class="glyphicon glyphicon-refresh glyphicon-spin" ng-if="showLoading"></i><span ng-if="!showLoading">{{ label }}</span>'
+                template: '<span ng-switch="showLoading">' +
+                '<i class="glyphicon glyphicon-refresh glyphicon-spin" ng-switch-when="true"></i>' +
+                '<span ng-switch-default>{{ label }}</span></span>'
             };
         });
 }(window.angular));

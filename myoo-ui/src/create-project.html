@@ -1,5 +1,8 @@
 <form name="createProjectForm" class="form" novalidate>
-    <div class="modal-header"><a class="close" ng-click="$dismiss()"><i>&times;</i></a><h4>{{ modalTitle }}</h4></div>
+    <div class="modal-header">
+        <a class="close" ng-click="$dismiss('User clicked x')">&times;</a>
+        <h4>{{ isEditingProject ? 'Edit project details' : 'Create a new project' }}</h4>
+    </div>
     <div class="modal-body">
         <div tabset>
             <div tab heading="Project Configuration">
@@ -11,20 +14,24 @@
                             class="glyphicon glyphicon-remove form-control-feedback"
                             ng-show="createProjectForm.$dirty && createProjectForm.$invalid" aria-hidden="true"></span>
                     </div>
-                    <div class="form-group"><label>Project Description</label><textarea class="form-control"
-                                                                                        ng-model="selectedProject.description"></textarea>
+                    <div class="form-group"><label>Project Description</label>
+                        <textarea class="form-control"
+                                  ng-model="selectedProject.description"></textarea>
                     </div>
-                    <div class="form-group text-center" ng-if="showDeleteProjectConfirm"><a class="btn btn-danger"
-                                                                                            ng-click="showDeleteProjectConfirm(selectedProject)">Delete
-                        project</a></div>
+                    <div class="form-group text-center" ng-if="isEditingProject">
+                        <a class="btn btn-danger"
+                           ng-click="showDeleteProjectConfirm()">Delete this
+                            project</a></div>
                 </div>
             </div>
             <div tab heading="Achievements">
-                <div class="padding-md"><p ng-if="selectedProject.achievements.length === 0" alert type="info">There are
-                    currently no achievements for this project.</p>
+                <div class="padding-md">
+                    <p ng-if="!isLoadingAchievements() && selectedProject.achievements.length === 0" alert type="info">
+                        There are
+                        currently no achievements for this project.</p>
                     <p class="text-center">
-                        <button class="btn btn-primary" ng-click="showCreateAchievement()">Create a new achievement
-                        </button>
+                        <a href="" class="btn btn-primary" ng-click="showCreateAchievement()">Create a new
+                            achievement</a>
                     </p>
                     <div class="list-group">
                         <div class="list-group-item"
@@ -37,9 +44,9 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-primary" ng-click="submitProject(selectedProject)"
-                ng-disabled="createProjectForm.$invalid || projectSubmitted" loading-btn="submitProjectLabel"
-                show-loading="projectSubmitted"></button>
+        <a href="" class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</a>
+        <button class="btn btn-primary" ng-click="userDidSaveProject()"
+                ng-disabled="createProjectForm.$invalid || isSavingProject" loading-btn="saveProjectLabel"
+                show-loading="isSavingProject"></button>
     </div>
 </form>

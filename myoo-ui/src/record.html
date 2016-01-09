@@ -1,6 +1,5 @@
 <div ng-controller="RecordController">
-    <div class="list-group"><p class="text-center" ng-if="isLoadingAchievements()"><i
-            class="glyphicon glyphicon-refresh glyphicon-spin"></i></p>
+    <div class="list-group"><spinner show-when="isLoadingAchievements()"></spinner>
         <p class="alert alert-info" ng-if="!isLoadingAchievements() && projectAchievements.length === 0">There are
             currently no achievements for this project.</p><a href="" class="list-group-item"
                                                               ng-repeat="achievement in projectAchievements | orderBy: 'name'"

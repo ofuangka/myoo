@@ -16,12 +16,14 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="pull-right" dropdown><a href="" dropdown-toggle><i class="glyphicon glyphicon-chevron-down"></i></a>
-                <ul class="dropdown-menu dropdown-menu-right" ng-controller="MainMenuController">
+                <ul class="dropdown-menu dropdown-menu-right" ng-controller="UserMenuController">
                     <li><a href="" ng-click="showManageSubscriptions()">Manage subscriptions</a></li>
                     <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Signed in as {{ self.username || '...'}}</li>
-                    <li><a href="{{ self.logoutUrl }}"><span ng-if="self.logoutUrl">Sign out</span> <span
-                            ng-if="!self.logoutUrl">...</span></a></li>
+                    <li class="dropdown-header">Signed in as {{ my.username || '...'}}</li>
+                    <li>
+                        <a href="{{ my.logoutUrl }}" ng-if="my.logoutUrl">Sign out</a>
+                        <a href="" ng-if="!my.logoutUrl">...</a>
+                    </li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -29,7 +31,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 padding-md"
-                     ng-controller="ProjectTopNavController">
+                     ng-controller="SectionNavController">
                     <ul class="nav nav-pills" ng-if="projectId">
                         <li ng-class="{active: sectionId === 'record'}"><a
                                 ui-sref="section({projectId: projectId, sectionId: 'record'})">Record</a></li>
@@ -39,17 +41,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3 col-md-2" ng-controller="ProjectSidebarController"><p class="text-center"
-                                                                                           ng-if="isLoadingProjects()">
-                    <i class="glyphicon glyphicon-refresh glyphicon-spin"></i></p>
+                <div class="col-sm-3 col-md-2" ng-controller="ProjectSidebarController">
+                    <spinner show-when="isLoadingProjects()"></spinner>
                     <ul class="nav nav-pills nav-stacked">
-                        <li ng-repeat="project in ownProjects | orderBy : 'name'"
+                        <li ng-repeat="project in projects | orderBy : 'name'"
                             ng-class="{active: projectId === project.id}"><a
                                 ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})">{{
                             project.name }}</a></li>
                     </ul>
-                    <p class="text-center padding-md"><a href="" class="btn btn-default" ng-click="showCreateProject()">Create
-                        project</a></p></div>
+                    <p class="text-center padding-md">
+                        <button class="btn btn-default" ng-click="showCreateProject()">Create project</button>
+                    </p>
+                </div>
                 <div class="col-sm-9 col-md-10">
                     <div ui-view></div>
                 </div>
@@ -65,8 +68,11 @@
 <script src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <!-- build:js myoo.min.js -->
+<script src="spinner.js"></script>
 <script src="loading-btn.js"></script>
-<script src="myoo.js"></script>
+<script src="app.js"></script>
+<script src="manage-subscriptions.js"></script>
+<script src="create-project.js"></script>
 <script src="services.js"></script>
 <!-- /build -->
 </body>

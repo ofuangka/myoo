@@ -1,5 +1,7 @@
-<div class="modal-header"><a class="close" ng-click="$dismiss()"><i>&times;</i></a><h4>{{ confirmTitle }}</h4></div>
-<div class="modal-body">{{ confirmBody }}</div>
-<div class="modal-footer"><a class="btn btn-default" ng-click="$close()">Cancel</a> <a class="btn btn-danger"
-                                                                                       ng-click="confirmSubmitFn()">{{
-    confirmSubmitLabel }}</a></div>
+<div class="modal-header"><a class="close" ng-click="$dismiss('User clicked x')">&times;</a><h4>{{ title }}</h4></div>
+<div class="modal-body">{{ message }}</div>
+<div class="modal-footer">
+    <a class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</a>
+    <button class="btn btn-danger" ng-click="userDidConfirm()" ng-disabled="isLoading" loading-btn="confirmLabel"
+            show-loading="isLoading"></button>
+</div>

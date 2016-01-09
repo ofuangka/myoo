@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 expand: true,
-                cwd: 'src/',
+                cwd: 'dist/',
                 src: '**',
                 dest: '../myoo-me/src/main/webapp/ui/'
             }
