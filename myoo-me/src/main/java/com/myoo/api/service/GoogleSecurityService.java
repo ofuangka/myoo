@@ -5,8 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.Crypt;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -15,7 +15,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.myoo.api.dao.ModifierDao;
+import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Modifier;
+import com.myoo.api.domain.Project;
 
 @Named
 public class GoogleSecurityService implements SecurityService {
@@ -36,6 +38,9 @@ public class GoogleSecurityService implements SecurityService {
 	@Inject
 	private ModifierDao modifierDao;
 
+	@Inject
+	private ProjectDao projectDao;
+
 	private UserService userService = UserServiceFactory.getUserService();
 
 	private String salt = DEFAULT_SALT;
@@ -49,10 +54,15 @@ public class GoogleSecurityService implements SecurityService {
 		boolean ret = false;
 		List<Modifier> allowedModifiers = modifierDao.getByProjectId(projectId);
 		String userId = getUserId();
-		for (Modifier modifier : allowedModifiers) {
-			if (StringUtils.equals(userId, modifier.getUserId())) {
-				ret = true;
-				break;
+		Project project = projectDao.get(projectId);
+		if (StringUtils.equals(userId, project.getCreatedBy())) {
+			ret = true;
+		} else {
+			for (Modifier modifier : allowedModifiers) {
+				if (StringUtils.equals(userId, modifier.getUserId())) {
+					ret = true;
+					break;
+				}
 			}
 		}
 		return ret;
@@ -62,12 +72,12 @@ public class GoogleSecurityService implements SecurityService {
 	public boolean isSelf(String userId) {
 		return StringUtils.equals(userId, getUserId());
 	}
-	
+
 	@Override
 	public String getLogoutUrl(String afterUrl) {
 		return userService.createLogoutURL(afterUrl);
 	}
-	
+
 	@Override
 	public String getUsername() {
 		return userService.getCurrentUser().getNickname();
