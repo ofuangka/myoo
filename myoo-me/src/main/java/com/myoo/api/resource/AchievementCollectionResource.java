@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,7 +44,7 @@ public class AchievementCollectionResource {
 	}
 
 	@POST
-	public Achievement create(@Valid Achievement achievement) {
+	public Achievement create(@NotNull @Valid Achievement achievement) {
 		if (userAccessService.isUserAllowed(achievement.getProjectId())) {
 			return achievementDao.create(achievement);
 		} else {

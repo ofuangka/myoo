@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,7 +44,7 @@ public class RecordCollectionResource {
 	}
 
 	@POST
-	public Record create(@Valid Record record) {
+	public Record create(@NotNull @Valid Record record) {
 		Date now = Calendar.getInstance().getTime();
 		record.setUserId(securityService.getUserId());
 		record.setTs(now);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,7 +42,7 @@ public class SubscriptionCollectionResource {
 	}
 
 	@POST
-	public Subscription create(@Valid Subscription subscription) {
+	public Subscription create(@NotNull @Valid Subscription subscription) {
 		subscription.setUserId(securityService.getUserId());
 		return subscriptionDao.create(subscription);
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -47,7 +48,7 @@ public class ProjectCollectionResource {
 	}
 
 	@POST
-	public Project create(@Valid Project project) {
+	public Project create(@NotNull @Valid Project project) {
 		Date now = Calendar.getInstance().getTime();
 		project.setCreatedBy(securityService.getUserId());
 		project.setCreatedTs(now);

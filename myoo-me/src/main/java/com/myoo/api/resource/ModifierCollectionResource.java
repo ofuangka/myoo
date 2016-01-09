@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,7 +44,7 @@ public class ModifierCollectionResource {
 	}
 
 	@POST
-	public Modifier create(@Valid Modifier modifier) {
+	public Modifier create(@NotNull @Valid Modifier modifier) {
 		if (userAccessService.isUserAllowed(modifier.getProjectId())) {
 			return modifierDao.create(modifier);
 		} else {
