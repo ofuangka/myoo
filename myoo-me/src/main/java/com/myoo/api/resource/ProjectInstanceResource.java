@@ -50,11 +50,11 @@ public class ProjectInstanceResource {
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
 		if (userAccessService.isUserAllowed(projectId)) {
 			// delete and recreate all Achievements
-			List<Achievement> achievements = project.getAchievements();
 			achievementDao.deleteByProjectId(projectId);
+			List<Achievement> achievements = project.getAchievements();
 			if (achievements != null) {
 				for (Achievement achievement : achievements) {
-
+					achievement.setProjectId(projectId);
 					achievementDao.create(achievement);
 				}
 			}

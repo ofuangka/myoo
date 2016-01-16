@@ -10,8 +10,10 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.myoo.api.domain.Record;
 import com.myoo.api.support.GoogleDatastoreDao;
 import com.myoo.api.support.GoogleDatastoreEntityMapper;
@@ -48,10 +50,19 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 
 	};
 
-	@Override
-	public List<Record> getByUserId(String userId) {
+	public List<Record> all(Date beginDate) {
 		Query query = new Query(KIND_RECORD);
-		query.setFilter(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId));
+		query.setFilter(new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN, beginDate));
+		return recordMapper.map(getDatastore().prepare(query).asIterable());
+	}
+
+	@Override
+	public List<Record> getByUserId(String userId, Date beginDate) {
+		Query query = new Query(KIND_RECORD);
+		query.setFilter(
+				CompositeFilterOperator.and(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId),
+						new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN, beginDate)));
+		query.addSort(KEY_TS, SortDirection.DESCENDING);
 		return recordMapper.map(getDatastore().prepare(query).asIterable());
 	}
 

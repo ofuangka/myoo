@@ -1,5 +1,6 @@
 package com.myoo.api.resource;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.myoo.api.dao.RecordDao;
 import com.myoo.api.domain.Record;
@@ -35,11 +39,17 @@ public class RecordCollectionResource {
 	private ResourceContext context;
 
 	@GET
-	public List<Record> list(@QueryParam("own") boolean isOwn) {
-		if (isOwn) {
-			return recordDao.getByUserId(securityService.getUserId());
-		} else {
-			return recordDao.all();
+	public List<Record> list(@QueryParam("own") boolean isOwn,
+			@NotNull @NotBlank @QueryParam("begin_date") String beginDateString) {
+		try {
+			Date beginDate = DateUtils.parseDate(beginDateString, "yyyy-MM-dd");
+			if (isOwn) {
+				return recordDao.getByUserId(securityService.getUserId(), beginDate);
+			} else {
+				return recordDao.all(beginDate);
+			}
+		} catch (ParseException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 
