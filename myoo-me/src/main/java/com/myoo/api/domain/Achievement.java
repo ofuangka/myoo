@@ -2,6 +2,7 @@ package com.myoo.api.domain;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,6 +28,14 @@ public class Achievement extends HasId {
 
 	@NotBlank
 	private String frequency;
+	
+	@NotNull
+	@Min(0)
+	private Integer spriteX;
+	
+	@NotNull
+	@Min(0)
+	private Integer spriteY;
 
 	public String getName() {
 		return name;
@@ -66,5 +75,21 @@ public class Achievement extends HasId {
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+	
+	public void setSpriteX(Integer spriteX) {
+		this.spriteX = spriteX;
+	}
+	
+	public Integer getSpriteX() {
+		return spriteX;
+	}
+	
+	public void setSpriteY(Integer spriteY) {
+		this.spriteY = spriteY;
+	}
+	
+	public Integer getSpriteY() {
+		return spriteY;
 	}
 }

@@ -25,6 +25,8 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 	private static final String KEY_DESCRIPTION = "description";
 	private static final String KEY_POINTS = "points";
 	private static final String KEY_FREQUENCY = "frequency";
+	private static final String KEY_SPRITE_X = "spriteX";
+	private static final String KEY_SPRITE_Y = "spriteY";
 
 	private GoogleDatastoreEntityMapper<Achievement> achievementMapper = new GoogleDatastoreEntityMapper<Achievement>() {
 
@@ -37,6 +39,8 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 			ret.setDescription((String) e.getProperty(KEY_DESCRIPTION));
 			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setFrequency((String) e.getProperty(KEY_FREQUENCY));
+			ret.setSpriteX((Integer) e.getProperty(KEY_SPRITE_X));
+			ret.setSpriteY((Integer) e.getProperty(KEY_SPRITE_Y));
 			return ret;
 		}
 
@@ -47,6 +51,8 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 			to.setProperty(KEY_DESCRIPTION, from.getDescription());
 			to.setProperty(KEY_POINTS, from.getPoints());
 			to.setProperty(KEY_FREQUENCY, from.getFrequency());
+			to.setProperty(KEY_SPRITE_X, from.getSpriteX());
+			to.setProperty(KEY_SPRITE_Y, from.getSpriteY());
 		}
 
 	};
