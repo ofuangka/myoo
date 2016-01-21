@@ -39,8 +39,8 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 			ret.setDescription((String) e.getProperty(KEY_DESCRIPTION));
 			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setFrequency((String) e.getProperty(KEY_FREQUENCY));
-			ret.setSpriteX((Integer) e.getProperty(KEY_SPRITE_X));
-			ret.setSpriteY((Integer) e.getProperty(KEY_SPRITE_Y));
+			ret.setSpriteX(((Long) e.getProperty(KEY_SPRITE_X)).intValue());
+			ret.setSpriteY(((Long) e.getProperty(KEY_SPRITE_Y)).intValue());
 			return ret;
 		}
 
