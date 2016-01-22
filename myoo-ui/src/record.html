@@ -1,13 +1,24 @@
 <div ng-controller="RecordController">
-    <div class="list-group"><spinner show-when="isLoadingAchievements()"></spinner>
-        <p class="alert alert-info" ng-if="!isLoadingAchievements() && projectAchievements.length === 0">There are
-            currently no achievements for this project.</p><a href="" class="list-group-item"
-                                                              ng-repeat="achievement in projectAchievements | orderBy: 'name'"
-                                                              ng-click="recordAchievement(achievement)"><span
-                class="badge">{{ achievement.points }}</span>
-            <div class="thumbnail pull-left marginright-md marginbottom-none"><span class="achievementIcon"></span>
+    <spinner show-when="isLoadingAchievements"></spinner>
+    <div class="list-group achievementList">
+        <p ng-if="!isLoadingAchievements && achievements.length === 0" uib-alert type="info">There are
+            currently no achievements for this project.</p>
+        <a href="" class="list-group-item"
+           ng-repeat="achievement in achievements | orderBy: 'name'"
+           ng-click="(getCooldown(achievement) >= 1) && recordAchievement(achievement)"
+           ng-class="{disabled: (getCooldown(achievement) < 1) || isAchievementLoading[achievement.id]}">
+            <span class="badge">{{ achievement.points }} &mu;</span>
+            <div class="thumbnail pull-left marginright-md marginbottom-none"
+                 uib-tooltip="{{ achievement.frequency | capitalize }} : {{ getRemainder(achievement) }}"
+                 tooltip-enable="{{ getCooldown(achievement) < 1}}">
+                <div class="achievementIconContainer" cooldown="getCooldown(achievement)">
+                    <span class="achievementIcon" sprite-x="achievement.spriteX"
+                          sprite-y="achievement.spriteY"></span>
+                </div>
             </div>
             <h4>{{ achievement.name }}</h4>
             <div>{{ achievement.description }}</div>
-            <span class="clearfix"></span></a></div>
+            <span class="clearfix"></span>
+        </a>
+    </div>
 </div>

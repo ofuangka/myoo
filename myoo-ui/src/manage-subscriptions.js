@@ -1,6 +1,6 @@
 (function wrapper(angular) {
     angular.module('Myoo')
-        .controller('ManageSubscriptionsController', ['$scope', '$modal', '$state', '$stateParams', 'Project', 'Subscription', 'User', 'Achievement', function ManageSubscriptionsController($scope, $modal, $state, $stateParams, Project, Subscription, User, Achievement) {
+        .controller('ManageSubscriptionsController', ['$scope', '$uibModal', '$state', '$stateParams', 'Project', 'Subscription', 'User', 'Achievement', function ManageSubscriptionsController($scope, $uibModal, $state, $stateParams, Project, Subscription, User, Achievement) {
             function getSubscription(project) {
                 var i,
                     len,
@@ -30,6 +30,15 @@
                     // create the Project.own reference
                     Project.own.$promise.then(function promiseDidResolve() {
                         Project.own.unshift(project);
+
+                        // if this is the user's only subscription, navigate to it
+                        if (Project.own.length === 1) {
+                            $state.go('section', {
+                                projectId: Project.own[0].id,
+                                sectionId: 'record'
+                            });
+                        }
+
                     });
                 });
                 return result;
@@ -37,7 +46,7 @@
 
             $scope.showCreateProject = function showCreateProject() {
                 $scope.selectedProject = {achievements: []};
-                $modal.open({
+                $uibModal.open({
                     templateUrl: 'create-project.html',
                     controller: 'CreateProjectController',
                     scope: $scope
@@ -45,7 +54,7 @@
             };
             $scope.showEditProject = function showEditProject(project) {
                 $scope.selectedProject = angular.extend({}, project, {achievements: Achievement.query({pid: project.id})});
-                $modal.open({
+                $uibModal.open({
                     templateUrl: 'create-project.html',
                     controller: 'EditProjectController',
                     scope: $scope
@@ -120,5 +129,5 @@
                     $scope.$close();
                 }
             };
-        }])
+        }]);
 }(window.angular));

@@ -1,6 +1,15 @@
 <form name="createAchievementForm" class="form" novalidate>
-    <div class="modal-header"><a class="close" ng-click="$dismiss()"><i>&times;</i></a><h4>{{ modalTitle }}</h4></div>
+    <div class="modal-header"><a class="close" ng-click="$dismiss('User clicked x')">&times;</a><h4>{{ title }}</h4>
+    </div>
     <div class="modal-body">
+        <div class="form-group text-center">
+            <div class="thumbnail">
+                <a href="" uib-popover-template="'select-icon.html'" popover-placement="bottom"
+                   popover-trigger="outsideClick"><span
+                        class="achievementIcon" sprite-x="selectedAchievement.spriteX"
+                        sprite-y="selectedAchievement.spriteY"></span></a>
+            </div>
+        </div>
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.name.$dirty && createAchievementForm.name.$invalid}"><label>Name</label><input
                 name="name" class="form-control" required="true" ng-model="selectedAchievement.name"> <span
@@ -11,16 +20,26 @@
         </div>
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.points.$dirty && createAchievementForm.points.$invalid}">
-            <label>Points</label><input name="points" type="number" class="form-control" required="true"
+            <label>Points</label><input name="points" type="number" pattern="\d*" class="form-control" required="true"
                                         ng-model="selectedAchievement.points"> <span
                 class="glyphicon glyphicon-remove form-control-feedback"
                 ng-show="createAchievementForm.points.$dirty && createAchievementForm.points.$invalid"></span></div>
-        <div class="form-group"><label>Frequency</label></div>
+        <div class="form-group">
+            <label>Frequency</label>
+            <div class="radio"><label><input type="radio" name="frequency" value="hourly"
+                                             ng-model="selectedAchievement.frequency"/> Hourly</label></div>
+            <div class="radio"><label><input type="radio" name="frequency" value="daily"
+                                             ng-model="selectedAchievement.frequency"/> Daily</label></div>
+            <div class="radio"><label><input type="radio" name="frequency" value="weekly"
+                                             ng-model="selectedAchievement.frequency"/> Weekly</label></div>
+            <div class="radio"><label><input type="radio" name="frequency" value="once"
+                                             ng-model="selectedAchievement.frequency"/> Once</label></div>
+        </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default" ng-click="$close()">Cancel</button>
-        <button class="btn btn-primary" ng-click="submitAchievement(selectedAchievement)"
-                ng-disabled="createAchievementForm.$invalid || achievementSubmitted"
-                loading-btn="submitAchievementLabel" show-loading="achievementSubmitted"></button>
+        <button class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</button>
+        <button class="btn btn-primary" ng-click="userDidSaveAchievement()"
+                ng-disabled="createAchievementForm.$invalid || isSavingAchievement"
+                loading-button="saveAchievementLabel" is-loading="isSavingAchievement"></button>
     </div>
 </form>

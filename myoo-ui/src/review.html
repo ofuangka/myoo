@@ -1,1 +1,47 @@
-<div ng-controller="ReviewController"></div>
+<div ng-controller="ReviewController">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <form name="reviewForm" class="form-inline" novalidate>
+                <div class="form-group">
+                    <div class="btn-group marginright-md" uib-dropdown>
+                        <a href="" class="btn btn-default">{{ selectedChartType | capitalize }}</a>
+                        <a href="" class="btn btn-default" uib-dropdown-toggle><span class="caret"></span></a>
+                        <ul uib-dropdown-menu>
+                            <li ng-repeat="chartType in chartTypes">
+                                <a href="" ng-click="setChartType(chartType)">{{ chartType | capitalize }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group marginright-md">
+                        <input name="from" type="text" class="form-control" ng-model="from"
+                               uib-datepicker-popup="{{ dateFormat }}" max-date="maxDate" is-open="isFromOpen"/>
+                        <span class="input-group-btn">
+                            <a href="" class="btn btn-default" ng-click="isFromOpen = true"><i
+                                    class="glyphicon glyphicon-calendar"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group marginright-md">
+                        <input name="to" type="text" class="form-control" ng-model="to"
+                               uib-datepicker-popup="{{ dateFormat }}" max-date="maxDate" is-open="isToOpen"/>
+                        <span class="input-group-btn">
+                            <a href="" class="btn btn-default" ng-click="isToOpen = true"><i
+                                    class="glyphicon glyphicon-calendar"></i></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a href="" class="btn btn-default" ng-click="set1Day()">1 day</a>
+                    <a href="" class="btn btn-default" ng-click="set1Week()">1 week</a>
+                    <a href="" class="btn btn-default" ng-click="set1Month()">1 month</a>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <spinner show-when="isLoading"></spinner>
+        </div>
+    </div>
+</div>

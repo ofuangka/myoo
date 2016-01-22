@@ -1,11 +1,16 @@
-.padding-md, .poster {
+.padding-md {
     padding: 15px
+}
+
+.paddingbottom-md {
+    padding-bottom: 15px;
 }
 
 .poster {
     display: inline-block;
     margin-right: 4px;
     margin-bottom: 4px;
+    padding: 10px;
     vertical-align: top
 }
 
@@ -15,18 +20,22 @@
 }
 
 .poster-body {
-    height: 50px;
+    height: 75px;
     overflow: hidden
 }
 
 .poster-footer {
-    height: 20px;
+    height: 30px;
     overflow: hidden
+}
+
+.achievementList > .list-group-item {
+    padding: 15px;
 }
 
 @media (min-width: 320px) {
     .poster {
-        width: 156px
+        width: 152px
     }
 }
 
@@ -43,9 +52,19 @@
 }
 
 .achievementIcon {
+    background-image: url(achievement-icon-spreadsheet.png);
     display: inline-block;
     width: 48px;
     height: 48px
+}
+
+.iconRepeater .thumbnail {
+    margin: 1px;
+}
+
+.iconContainer {
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .glyphicon-spin {
@@ -85,4 +104,12 @@
 
 .bnl {
     margin-right: 4px
+}
+
+.thumbnail {
+    display: inline-block;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
 }

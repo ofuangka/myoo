@@ -17,14 +17,23 @@
         .provider('User', function UserProvider() {
             this.$get = ['$resource', function UserFactory($resource) {
                 var User = $resource('/api/users/:id');
-                return angular.extend({}, User, {
+                return angular.extend(User, {
                     self: User.get({id: 'self'})
                 });
             }];
         })
         .provider('Record', function RecordProvider() {
-            this.$get = ['$resource', function RecordFactory($resource) {
-                return $resource('/api/records/:id');
+            this.$get = ['$resource', '$filter', function RecordFactory($resource, $filter) {
+                var lastWeek,
+                    Record;
+                lastWeek = new Date();
+                lastWeek.setDate(lastWeek.getDate() - 8);
+                Record = $resource('/api/records/:id', {
+                    begin_date: $filter('date')(lastWeek, 'yyyy-MM-dd')
+                });
+                return angular.extend(Record, {
+                    own: Record.query()
+                });
             }];
         })
         .provider('Subscription', function SubscriptionProvider() {

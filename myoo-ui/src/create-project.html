@@ -4,8 +4,8 @@
         <h4>{{ isEditingProject ? 'Edit project details' : 'Create a new project' }}</h4>
     </div>
     <div class="modal-body">
-        <div tabset>
-            <div tab heading="Project Configuration">
+        <div uib-tabset>
+            <div uib-tab heading="Project Configuration">
                 <div class="padding-md">
                     <div class="form-group has-feedback"
                          ng-class="{'has-error': createProjectForm.$dirty && createProjectForm.$invalid}"><label>Project
@@ -24,20 +24,29 @@
                             project</a></div>
                 </div>
             </div>
-            <div tab heading="Achievements">
+            <div uib-tab heading="Achievements">
                 <div class="padding-md">
-                    <p ng-if="!isLoadingAchievements() && selectedProject.achievements.length === 0" alert type="info">
+                    <p ng-if="!isLoadingAchievements() && selectedProject.achievements.length === 0" uib-alert type="info">
                         There are
                         currently no achievements for this project.</p>
                     <p class="text-center">
-                        <a href="" class="btn btn-primary" ng-click="showCreateAchievement()">Create a new
+                        <a href="" class="btn btn-success" ng-click="showCreateAchievement()">Create a new
                             achievement</a>
                     </p>
-                    <div class="list-group">
+                    <div class="list-group achievementList">
                         <div class="list-group-item"
-                             ng-repeat="achievement in selectedProject.achievements | orderBy: 'name'"><h5>{{
-                            achievement.name }}</h5>
-                            <p>{{ achievement.description }}</p></div>
+                             ng-repeat="achievement in selectedProject.achievements | orderBy: 'name'">
+                            <div class="btn-group btn-group-xs pull-right">
+                                <a href="" class="btn btn-info" title="Edit this achievement"
+                                   ng-click="showEditAchievement(achievement)"><i
+                                        class="glyphicon glyphicon-pencil bnl"></i>Edit</a>
+                                <a href="" class="btn btn-danger" title="Delete this achievement"
+                                   ng-click="showDeleteAchievementConfirm(achievement)"><i
+                                        class="glyphicon glyphicon-remove bnl"></i>Delete</a>
+                            </div>
+                            <h4>{{ achievement.name }}</h4>
+                            <p>{{ achievement.description}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,7 +55,7 @@
     <div class="modal-footer">
         <a href="" class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</a>
         <button class="btn btn-primary" ng-click="userDidSaveProject()"
-                ng-disabled="createProjectForm.$invalid || isSavingProject" loading-btn="saveProjectLabel"
-                show-loading="isSavingProject"></button>
+                ng-disabled="createProjectForm.$invalid || isSavingProject" loading-button="saveProjectLabel"
+                is-loading="isSavingProject"></button>
     </div>
 </form>

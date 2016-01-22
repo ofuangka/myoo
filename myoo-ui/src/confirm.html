@@ -2,6 +2,6 @@
 <div class="modal-body">{{ message }}</div>
 <div class="modal-footer">
     <a class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</a>
-    <button class="btn btn-danger" ng-click="userDidConfirm()" ng-disabled="isLoading" loading-btn="confirmLabel"
-            show-loading="isLoading"></button>
+    <button class="btn btn-danger" ng-click="userDidConfirm()" ng-disabled="isConfirming" loading-button="confirmLabel"
+            is-loading="isConfirming"></button>
 </div>

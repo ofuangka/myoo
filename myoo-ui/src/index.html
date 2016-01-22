@@ -15,9 +15,10 @@
     </h1>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="pull-right" dropdown><a href="" dropdown-toggle><i class="glyphicon glyphicon-chevron-down"></i></a>
-                <ul class="dropdown-menu dropdown-menu-right" ng-controller="UserMenuController">
+            <div class="pull-right" uib-dropdown><a href="" uib-dropdown-toggle><i class="glyphicon glyphicon-chevron-down"></i></a>
+                <ul ng-cloak ng-controller="UserMenuController" uib-dropdown-menu>
                     <li><a href="" ng-click="showManageSubscriptions()">Manage subscriptions</a></li>
+                    <li><a href="" ng-click="showLeaderboards()">Leaderboards</a></li>
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">Signed in as {{ my.username || '...'}}</li>
                     <li>
@@ -30,7 +31,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 padding-md"
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 paddingbottom-md"
                      ng-controller="SectionNavController">
                     <ul class="nav nav-pills" ng-if="projectId">
                         <li ng-class="{active: sectionId === 'record'}"><a
@@ -43,14 +44,20 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2" ng-controller="ProjectSidebarController">
                     <spinner show-when="isLoadingProjects()"></spinner>
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul class="nav nav-pills nav-stacked hidden-xs">
                         <li ng-repeat="project in projects | orderBy : 'name'"
                             ng-class="{active: projectId === project.id}"><a
                                 ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})">{{
                             project.name }}</a></li>
                     </ul>
-                    <p class="text-center padding-md">
-                        <button class="btn btn-default" ng-click="showCreateProject()">Create project</button>
+                    <select class="form-control visible-xs" ng-model="xsProjectSelect.projectId"
+                            ng-options="project.id as project.name for project in projects | orderBy : 'name'"
+                            ng-if="projects.length > 0"></select>
+                    <p class="text-center padding-md visible-xs">
+                        <a href="" class="btn btn-info"
+                           ng-click="showEditProject(xsProjectSelect.projectId)"
+                           ng-if="!isLoadingProjects() && projects.length > 0 && xsProjectSelect.projectId && isOwner(xsProjectSelect.projectId)">Edit
+                            project</a>
                     </p>
                 </div>
                 <div class="col-sm-9 col-md-10">
@@ -67,13 +74,23 @@
 <script src="components/angular-resource/angular-resource.min.js"></script>
 <script src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="components/fastclick/lib/fastclick.js"></script>
 <!-- build:js myoo.min.js -->
 <script src="spinner.js"></script>
-<script src="loading-btn.js"></script>
+<script src="loading-button.js"></script>
+<script src="cooldown.js"></script>
+<script src="sprite.js"></script>
 <script src="app.js"></script>
 <script src="manage-subscriptions.js"></script>
 <script src="create-project.js"></script>
 <script src="services.js"></script>
 <!-- /build -->
+<script>
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
+</script>
 </body>
 </html>

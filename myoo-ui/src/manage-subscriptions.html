@@ -3,28 +3,28 @@
     <h4>Manage your subscriptions</h4>
 </div>
 <div class="modal-body">
-    <p ng-if="!isLoadingProjects() && projects.length === 0" alert type="info">No projects yet. Be the first to <a
+    <p ng-if="!isLoadingProjects() && projects.length === 0" uib-alert type="info">No projects yet. Be the first to <a
             href="" class="alert-link" ng-click="showCreateProject()">create one</a>.</p>
     <p class="text-center">
-        <a class="btn btn-primary" ng-click="showCreateProject()">Create a new project</a>
+        <a class="btn btn-success" ng-click="showCreateProject()">Create a new project</a>
     </p>
     <spinner show-when="isLoadingProjects()"></spinner>
     <div ng-if="projects.length > 0">
         <div class="form-group"><label>Filter</label><input class="form-control" placeholder="Type to filter"
                                                             ng-model="projectFilter"></div>
-        <div class="poster thumbnail" ng-repeat="project in projects | filter : projectFilter | orderBy : 'name'"><h3
-                class="poster-heading"><a href="" ng-click="userDidChooseProject(project)">{{ project.name }}</a></h3>
+        <div class="poster thumbnail" ng-repeat="project in projects | filter : projectFilter | orderBy : 'name'"><h4
+                class="poster-heading"><a href="" ng-click="userDidChooseProject(project)">{{ project.name }}</a></h4>
             <div class="poster-body">
                 <p>{{ project.description }}</p>
             </div>
             <div class="poster-footer">
                 <div class="btn-group btn-group-xs pull-right">
-                    <a class="btn btn-default"
+                    <a class="btn btn-warning"
                        title="Subscribe to this project"
                        ng-click="subscribe(project)" ng-if="!isSubscribed(project)">Subscribe</a>
-                    <a class="btn btn-default" title="Unsubscribe from this project" ng-click="unsubscribe(project)"
+                    <a class="btn btn-warning" title="Unsubscribe from this project" ng-click="unsubscribe(project)"
                        ng-if="isSubscribed(project)">Unsubscribe</a>
-                    <a class="btn btn-default" title="Edit this project" ng-if="isOwner(project)"
+                    <a class="btn btn-info" title="Edit this project" ng-if="isOwner(project)"
                        ng-click="showEditProject(project)">Edit</a>
                 </div>
             </div>
