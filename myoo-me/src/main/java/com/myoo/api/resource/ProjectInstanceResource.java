@@ -14,6 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.myoo.api.dao.AchievementDao;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.dao.RecordDao;
@@ -48,14 +50,22 @@ public class ProjectInstanceResource {
 
 	@POST
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
-		if (userAccessService.isUserAllowed(projectId)) {
-			// delete and recreate all Achievements
-			achievementDao.deleteByProjectId(projectId);
+		if (userAccessService.isUserAllowedToEditProject(projectId)) {
 			List<Achievement> achievements = project.getAchievements();
 			if (achievements != null) {
 				for (Achievement achievement : achievements) {
-					achievement.setProjectId(projectId);
-					achievementDao.create(achievement);
+					String achievementId = achievement.getId();
+					if (StringUtils.isNotBlank(achievementId)) {
+						if (userAccessService.isUserAllowedToEditAchievement(achievementId)) {
+							achievementDao.update(achievement);
+						} else {
+							// someone's trying to hack the system
+							throw new SecurityException("User is not allowed to update that Achievement");
+						}
+					} else {
+						achievement.setProjectId(projectId);
+						achievementDao.create(achievement);
+					}
 				}
 			}
 
@@ -73,7 +83,7 @@ public class ProjectInstanceResource {
 
 	@DELETE
 	public Project delete(@PathParam("projectId") String projectId) {
-		if (userAccessService.isUserAllowed(projectId)) {
+		if (userAccessService.isUserAllowedToEditProject(projectId)) {
 			Project ret = projectDao.delete(projectId);
 			List<Achievement> achievements = achievementDao.getByProjectId(projectId);
 			if (achievements != null) {

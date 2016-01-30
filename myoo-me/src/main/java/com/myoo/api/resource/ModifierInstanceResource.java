@@ -31,7 +31,7 @@ public class ModifierInstanceResource {
 
 	@POST
 	public Modifier update(@PathParam("modifierId") String modifierId, @Valid Modifier modifier) {
-		if (userAccessService.isUserAllowed(modifierDao.get(modifierId).getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(modifierDao.get(modifierId).getProjectId())) {
 			modifier.setId(modifierId);
 			return modifierDao.update(modifier);
 		} else {
@@ -41,7 +41,7 @@ public class ModifierInstanceResource {
 
 	@DELETE
 	public Modifier delete(@PathParam("modifierId") String modifierId) {
-		if (userAccessService.isUserAllowed(modifierDao.get(modifierId).getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(modifierDao.get(modifierId).getProjectId())) {
 			return modifierDao.delete(modifierId);
 		} else {
 			throw new SecurityException("User is not allowed to delete Modifiers for that Project");

@@ -31,7 +31,7 @@ public class AchievementInstanceResource {
 
 	@POST
 	public Achievement update(@PathParam("achievementId") String achievementId, @Valid Achievement achievement) {
-		if (userAccessService.isUserAllowed(achievementDao.get(achievementId).getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(achievementDao.get(achievementId).getProjectId())) {
 			achievement.setId(achievementId);
 			return achievementDao.update(achievement);
 		} else {
@@ -41,7 +41,7 @@ public class AchievementInstanceResource {
 
 	@DELETE
 	public Achievement delete(@PathParam("achievementId") String achievementId) {
-		if (userAccessService.isUserAllowed(achievementDao.get(achievementId).getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(achievementDao.get(achievementId).getProjectId())) {
 			return achievementDao.delete(achievementId);
 		} else {
 			throw new SecurityException("User is not allowed to delete Achievements for that Project");

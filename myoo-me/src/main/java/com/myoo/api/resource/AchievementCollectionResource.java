@@ -45,7 +45,7 @@ public class AchievementCollectionResource {
 
 	@POST
 	public Achievement create(@NotNull @Valid Achievement achievement) {
-		if (userAccessService.isUserAllowed(achievement.getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(achievement.getProjectId())) {
 			return achievementDao.create(achievement);
 		} else {
 			throw new SecurityException("User is not allowed to create an Achievement for that Project");

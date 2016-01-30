@@ -26,6 +26,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 	private static final String KEY_POINTS = "points";
 	private static final String KEY_TS = "ts";
 	private static final String KEY_HASHED_USER_ID = "hashedUserId";
+	private static final String KEY_USERNAME = "username";
 
 	private static final GoogleDatastoreEntityMapper<Record> recordMapper = new GoogleDatastoreEntityMapper<Record>() {
 
@@ -37,6 +38,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setTs((Date) e.getProperty(KEY_TS));
 			ret.setUserId((String) e.getProperty(KEY_HASHED_USER_ID));
+			ret.setUsername((String) e.getProperty(KEY_USERNAME));
 			return ret;
 		}
 
@@ -46,22 +48,49 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			to.setProperty(KEY_POINTS, from.getPoints());
 			to.setProperty(KEY_TS, from.getTs());
 			to.setProperty(KEY_HASHED_USER_ID, from.getUserId());
+			to.setProperty(KEY_USERNAME, from.getUsername());
 		}
 
 	};
 
-	public List<Record> all(Date beginDate) {
+	public List<Record> all(Date beginDate, Date endDate) {
 		Query query = new Query(KIND_RECORD);
-		query.setFilter(new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN, beginDate));
+		query.setFilter(CompositeFilterOperator.and(
+				new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN_OR_EQUAL, beginDate),
+				new FilterPredicate(KEY_TS, FilterOperator.LESS_THAN, endDate)));
 		return recordMapper.map(getDatastore().prepare(query).asIterable());
 	}
 
 	@Override
-	public List<Record> getByUserId(String userId, Date beginDate) {
+	public List<Record> getByUserId(String userId, Date beginDate, Date endDate) {
 		Query query = new Query(KIND_RECORD);
 		query.setFilter(
 				CompositeFilterOperator.and(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId),
-						new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN, beginDate)));
+						new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN_OR_EQUAL, beginDate),
+						new FilterPredicate(KEY_TS, FilterOperator.LESS_THAN, endDate)));
+		query.addSort(KEY_TS, SortDirection.DESCENDING);
+		return recordMapper.map(getDatastore().prepare(query).asIterable());
+	}
+
+	@Override
+	public List<Record> getByUserIdByAchievementId(String userId, String achievementId, Date beginDate, Date endDate) {
+		Query query = new Query(KIND_RECORD);
+		query.setFilter(
+				CompositeFilterOperator.and(new FilterPredicate(KEY_HASHED_USER_ID, FilterOperator.EQUAL, userId),
+						new FilterPredicate(KEY_ACHIEVEMENT_ID, FilterOperator.EQUAL, achievementId),
+						new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN_OR_EQUAL, beginDate),
+						new FilterPredicate(KEY_TS, FilterOperator.LESS_THAN, endDate)));
+		query.addSort(KEY_TS, SortDirection.DESCENDING);
+		return recordMapper.map(getDatastore().prepare(query).asIterable());
+	}
+
+	@Override
+	public List<Record> getByAchievementId(String achievementId, Date beginDate, Date endDate) {
+		Query query = new Query(KIND_RECORD);
+		query.setFilter(CompositeFilterOperator.and(
+				new FilterPredicate(KEY_ACHIEVEMENT_ID, FilterOperator.EQUAL, achievementId),
+				new FilterPredicate(KEY_TS, FilterOperator.GREATER_THAN_OR_EQUAL, beginDate),
+				new FilterPredicate(KEY_TS, FilterOperator.LESS_THAN, endDate)));
 		query.addSort(KEY_TS, SortDirection.DESCENDING);
 		return recordMapper.map(getDatastore().prepare(query).asIterable());
 	}
@@ -76,7 +105,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 		return KIND_RECORD;
 	}
 
-	public List<Record> getByAchievementId(String achievementId) {
+	private List<Record> getByAchievementId(String achievementId) {
 		Query query = new Query(KIND_RECORD);
 		query.setFilter(new FilterPredicate(KEY_ACHIEVEMENT_ID, FilterOperator.EQUAL, achievementId));
 		return recordMapper.map(getDatastore().prepare(query).asIterable());

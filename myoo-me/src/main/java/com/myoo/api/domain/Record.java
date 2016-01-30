@@ -19,6 +19,9 @@ public class Record extends HasId {
 	
 	@Null
 	private String userId;
+	
+	@Null
+	private String username;
 
 	@Min(1)
 	@Max(10000)
@@ -57,5 +60,13 @@ public class Record extends HasId {
 
 	public void setTs(Date ts) {
 		this.ts = ts;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

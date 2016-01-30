@@ -45,7 +45,7 @@ public class ModifierCollectionResource {
 
 	@POST
 	public Modifier create(@NotNull @Valid Modifier modifier) {
-		if (userAccessService.isUserAllowed(modifier.getProjectId())) {
+		if (userAccessService.isUserAllowedToEditProject(modifier.getProjectId())) {
 			return modifierDao.create(modifier);
 		} else {
 			throw new SecurityException("User is not allowed to add Modifiers for that Project");

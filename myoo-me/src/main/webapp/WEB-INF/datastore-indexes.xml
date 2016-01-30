@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+	<datastore-index kind="Record" ancestor="false" source="manual">
+		<property name="achievementId" direction="asc" />
+		<property name="hashedUserId" direction="asc" />
+		<property name="ts" direction="desc" />
+	</datastore-index>
+	<datastore-index kind="Record" ancestor="false" source="manual">
+		<property name="achievementId" direction="asc" />
+		<property name="ts" direction="desc" />
+	</datastore-index>
+
+</datastore-indexes>
