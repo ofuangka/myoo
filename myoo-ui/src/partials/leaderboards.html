@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <a class="close" ng-click="$dismiss('User clicked x')">&times;</a>
+    <h4>Leaderboards</h4>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="btn-group">
+                <a href="" class="btn btn-info" ng-model="period" uib-btn-radio="'week'">This week</a>
+                <a href="" class="btn btn-info" ng-model="period" uib-btn-radio="'month'">This month</a>
+                <a href="" class="btn btn-info" ng-model="period" uib-btn-radio="'year'">This year</a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <spinner show-when="isLoading"></spinner>
+            <p uib-alert type="info" ng-if="!isLoading && leaders.length === 0">No leaders for this period.</p>
+            <table class="table table-striped" ng-if="!isLoading && leaders.length > 0">
+                <thead>
+                <tr>
+                    <th class="text-right">#</th>
+                    <th>Username</th>
+                    <th class="text-right">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="leader in leaders | orderBy : 'points' : false">
+                    <td class="text-right">{{ $index + 1 }}</td>
+                    <td>{{ leader.username }}</td>
+                    <td class="text-right">{{ leader.points }} &mu;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close()">Done</button>
+</div>

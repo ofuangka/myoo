@@ -42,6 +42,8 @@
         </div>
         <div class="panel-body">
             <spinner show-when="isLoading"></spinner>
+            <div class="barChart" ng-class="{invisible: isLoading}" bar-chart-data="reviewChartDataTable"
+                 bar-chart-options="reviewChartOptions"></div>
         </div>
     </div>
 </div>

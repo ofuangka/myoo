@@ -1,4 +1,5 @@
 (function wrapper(angular) {
+    'use strict';
     angular.module('Myoo')
         .controller('CreateProjectController', ['$scope', '$uibModal', '$state', '$filter', 'Project', 'Subscription', function CreateProjectController($scope, $uibModal, $state, $filter, Project, Subscription) {
             $scope.selectedProject = {
@@ -7,7 +8,7 @@
             $scope.showCreateAchievement = function showCreateAchievement() {
                 $scope.selectedAchievement = {frequency: 'daily', spriteX: 0, spriteY: 0};
                 $uibModal.open({
-                    templateUrl: 'create-achievement.html',
+                    templateUrl: 'partials/create-achievement.html',
                     controller: 'CreateAchievementController',
                     scope: $scope
                 });
@@ -15,7 +16,7 @@
             $scope.showDeleteAchievementConfirm = function showDeleteAchievementConfirm(achievement) {
                 $scope.selectedAchievement = achievement;
                 $uibModal.open({
-                    templateUrl: 'confirm.html',
+                    templateUrl: 'partials/confirm.html',
                     controller: 'DeleteAchievementConfirmController',
                     scope: $scope,
                     size: 'sm'
@@ -25,7 +26,7 @@
                 $scope.originalAchievement = achievement;
                 $scope.selectedAchievement = angular.extend({}, achievement);
                 $uibModal.open({
-                    templateUrl: 'create-achievement.html',
+                    templateUrl: 'partials/create-achievement.html',
                     controller: 'EditAchievementController',
                     scope: $scope
                 });
@@ -72,7 +73,7 @@
             $scope.showDeleteAchievementConfirm = function showDeleteAchievementConfirm(achievement) {
                 $scope.selectedAchievement = achievement;
                 $uibModal.open({
-                    templateUrl: 'confirm.html',
+                    templateUrl: 'partials/confirm.html',
                     controller: 'DeleteAchievementConfirmController',
                     scope: $scope,
                     size: 'sm'
@@ -80,7 +81,7 @@
             };
             $scope.showDeleteProjectConfirm = function showDeleteProjectConfirm() {
                 $uibModal.open({
-                    templateUrl: 'confirm.html',
+                    templateUrl: 'partials/confirm.html',
                     controller: 'DeleteProjectConfirmController',
                     scope: $scope,
                     size: 'sm'
@@ -89,7 +90,7 @@
             $scope.showCreateAchievement = function showCreateAchievement() {
                 $scope.selectedAchievement = {points: 0, frequency: 'daily'};
                 $uibModal.open({
-                    templateUrl: 'create-achievement.html',
+                    templateUrl: 'partials/create-achievement.html',
                     controller: 'CreateAchievementController',
                     scope: $scope
                 });
@@ -98,7 +99,7 @@
                 $scope.originalAchievement = achievement;
                 $scope.selectedAchievement = angular.extend({}, achievement);
                 $uibModal.open({
-                    templateUrl: 'create-achievement.html',
+                    templateUrl: 'partials/create-achievement.html',
                     controller: 'EditAchievementController',
                     scope: $scope
                 });
@@ -127,7 +128,7 @@
                                 break;
                             }
                         }
-                        $rootScope.$broadcast('projectChangeSuccess');
+                        $rootScope.$broadcast('projectChangeSuccess', result);
                         $scope.$close();
                     });
                 });

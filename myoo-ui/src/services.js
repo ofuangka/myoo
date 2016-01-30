@@ -24,15 +24,20 @@
         })
         .provider('Record', function RecordProvider() {
             this.$get = ['$resource', '$filter', function RecordFactory($resource, $filter) {
-                var lastWeek,
+                var date = $filter('date'),
+                    dateFormat = 'yyyy-MM-dd',
+                    lastWeek,
+                    now,
                     Record;
                 lastWeek = new Date();
-                lastWeek.setDate(lastWeek.getDate() - 8);
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                now = new Date();
                 Record = $resource('/api/records/:id', {
-                    begin_date: $filter('date')(lastWeek, 'yyyy-MM-dd')
+                    begin_date: date(lastWeek, dateFormat),
+                    end_date: date(now, dateFormat)
                 });
                 return angular.extend(Record, {
-                    own: Record.query()
+                    own: Record.query({own: true})
                 });
             }];
         })

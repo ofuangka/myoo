@@ -1,4 +1,5 @@
 (function wrapper(angular) {
+    'use strict';
     angular.module('spinner', [])
         .directive('spinner', function spinnerDirective() {
             return {

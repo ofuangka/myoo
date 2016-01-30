@@ -1,6 +1,7 @@
 (function wrapper(angular) {
+    'use strict';
     angular.module('Myoo')
-        .controller('ManageSubscriptionsController', ['$scope', '$uibModal', '$state', '$stateParams', 'Project', 'Subscription', 'User', 'Achievement', function ManageSubscriptionsController($scope, $uibModal, $state, $stateParams, Project, Subscription, User, Achievement) {
+        .controller('ManageSubscriptionsController', ['$scope', '$uibModal', '$state', '$stateParams', '$q', 'Project', 'Subscription', 'User', 'Achievement', function ManageSubscriptionsController($scope, $uibModal, $state, $stateParams, $q, Project, Subscription, User, Achievement) {
             function getSubscription(project) {
                 var i,
                     len,
@@ -44,25 +45,8 @@
                 return result;
             }
 
-            $scope.showCreateProject = function showCreateProject() {
-                $scope.selectedProject = {achievements: []};
-                $uibModal.open({
-                    templateUrl: 'create-project.html',
-                    controller: 'CreateProjectController',
-                    scope: $scope
-                });
-            };
-            $scope.showEditProject = function showEditProject(project) {
-                $scope.selectedProject = angular.extend({}, project, {achievements: Achievement.query({pid: project.id})});
-                $uibModal.open({
-                    templateUrl: 'create-project.html',
-                    controller: 'EditProjectController',
-                    scope: $scope
-                });
-            };
-
             $scope.isOwner = function isOwner(project) {
-                return project.createdBy === User.self.id;
+                return project && project.createdBy === User.self.id;
             };
 
             $scope.isSubscribed = isSubscribed;
@@ -77,8 +61,7 @@
                 if (subscription) {
                     Subscription.remove({id: subscription.id}, function requestDidSucceed() {
 
-                        // delete the Subscription.own reference
-                        Subscription.own.$promise.then(function promiseDidResolve() {
+                        $q.all([Subscription.own.$promise, Project.own.$promise]).then(function promiseDidResolve() {
                             var i,
                                 len;
                             for (i = 0, len = Subscription.own.length; i < len; i++) {
@@ -87,24 +70,18 @@
                                     break;
                                 }
                             }
-                        });
-
-                        // delete the Project.own reference
-                        Project.own.$promise.then(function promiseDidResolve() {
-                            var i,
-                                len;
                             for (i = 0, len = Project.own.length; i < len; i++) {
                                 if (Project.own[i].id === project.id) {
                                     Project.own.splice(i, 1);
                                     break;
                                 }
                             }
-                        });
 
-                        // fallback if the current project is being unsubscribed
-                        if ($stateParams.projectId === project.id) {
-                            $state.go('fallback');
-                        }
+                            // fallback if the current project is being unsubscribed
+                            if ($stateParams.projectId === project.id) {
+                                $state.go('fallback');
+                            }
+                        });
                     });
                 }
             };

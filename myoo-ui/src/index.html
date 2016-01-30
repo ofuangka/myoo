@@ -13,9 +13,10 @@
     <h1><a href="">/myoo/</a>
         <small>Ask for it by name</small>
     </h1>
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" ng-controller="SharedScopeController">
         <div class="panel-heading">
-            <div class="pull-right" uib-dropdown><a href="" uib-dropdown-toggle><i class="glyphicon glyphicon-chevron-down"></i></a>
+            <div class="pull-right" uib-dropdown><a href="" uib-dropdown-toggle><i
+                    class="glyphicon glyphicon-chevron-down"></i></a>
                 <ul ng-cloak ng-controller="UserMenuController" uib-dropdown-menu>
                     <li><a href="" ng-click="showManageSubscriptions()">Manage subscriptions</a></li>
                     <li><a href="" ng-click="showLeaderboards()">Leaderboards</a></li>
@@ -75,19 +76,26 @@
 <script src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="components/fastclick/lib/fastclick.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    // frozen version until Google fixes bug with scrolling on iOS
+    google.charts.load('42', {packages: ['bar']});
+</script>
 <!-- build:js myoo.min.js -->
 <script src="spinner.js"></script>
 <script src="loading-button.js"></script>
 <script src="cooldown.js"></script>
 <script src="sprite.js"></script>
 <script src="app.js"></script>
+<script src="record.js"></script>
+<script src="review.js"></script>
 <script src="manage-subscriptions.js"></script>
 <script src="create-project.js"></script>
 <script src="services.js"></script>
 <!-- /build -->
 <script>
     if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function domContentDidLoad() {
             FastClick.attach(document.body);
         }, false);
     }
