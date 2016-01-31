@@ -32,34 +32,6 @@
                 }
             }
         })
-        .directive('barChartData', ['$window', function barChartDirective($window) {
-            return {
-                restrict: 'EA',
-                link: function linkFn(scope, element) {
-                    function drawChart() {
-
-                        // Instantiate and draw our chart, passing in some options.
-                        new google.charts.Bar(element[0]).draw(scope.barChartData, scope.barChartOptions);
-
-                    }
-
-                    angular.element($window).on('resize', function windowDidResize(newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            drawChart();
-                        }
-                    });
-                    scope.$watch('barChartData', function barChartDataDidChange(newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            drawChart();
-                        }
-                    });
-                },
-                scope: {
-                    barChartData: '=',
-                    barChartOptions: '='
-                }
-            };
-        }])
         .controller('UserMenuController', ['$scope', '$uibModal', 'User', function UserMenuController($scope, $uibModal, User) {
             $scope.my = User.self;
             $scope.showManageSubscriptions = function showManageSubscriptions() {

@@ -23,7 +23,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="leader in leaders | orderBy : 'points' : false">
+                <tr ng-repeat="leader in leaders | orderBy : 'points' : true">
                     <td class="text-right">{{ $index + 1 }}</td>
                     <td>{{ leader.username }}</td>
                     <td class="text-right">{{ leader.points }} &mu;</td>

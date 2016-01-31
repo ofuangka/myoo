@@ -1,6 +1,40 @@
 (function wrapper(angular) {
     'use strict';
     angular.module('Myoo')
+        .directive('barChartData', ['$window', function barChartDirective($window) {
+            return {
+                restrict: 'EA',
+                link: function linkFn(scope, element) {
+                    function drawChart() {
+
+                        // Instantiate and draw our chart, passing in some options.
+                        new google.charts.Bar(element[0]).draw(scope.barChartData, scope.barChartOptions);
+
+                    }
+
+                    function windowDidResize(newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            drawChart();
+                        }
+                    }
+
+                    var deregistrationFn = scope.$watch('barChartData', function barChartDataDidChange(newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            drawChart();
+                        }
+                    });
+                    angular.element($window).on('resize', windowDidResize);
+                    element.on('$destroy', function $destroy() {
+                        angular.element($window).off('resize', windowDidResize);
+                    });
+                    scope.$on('$destroy', deregistrationFn);
+                },
+                scope: {
+                    barChartData: '=',
+                    barChartOptions: '='
+                }
+            };
+        }])
         .controller('ReviewController', ['$scope', '$filter', '$window', '$stateParams', '$q', 'Record', 'User', 'Achievement', 'QUERY_DATE_FORMAT', 'SORTABLE_DATE_FORMAT', function ReviewController($scope, $filter, $window, $stateParams, $q, Record, User, Achievement, QUERY_DATE_FORMAT, SORTABLE_DATE_FORMAT) {
             function fetchChartData(newValue, oldValue) {
                 function dateAsQueryString(d) {
