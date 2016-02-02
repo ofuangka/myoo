@@ -20,6 +20,13 @@
                         $scope.achievements.unshift(achievement);
                     });
                     $scope.isLoadingAchievements = false;
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
             }
 
@@ -94,6 +101,13 @@
                             size: 'sm'
                         });
                         $scope.isAchievementLoading[achievement.id] = false;
+                    }, function promiseDidReject() {
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
                     });
                 });
             };

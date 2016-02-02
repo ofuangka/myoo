@@ -35,7 +35,7 @@
                 }
             };
         }])
-        .controller('ReviewController', ['$scope', '$filter', '$window', '$stateParams', '$q', 'Record', 'User', 'Achievement', 'QUERY_DATE_FORMAT', 'SORTABLE_DATE_FORMAT', function ReviewController($scope, $filter, $window, $stateParams, $q, Record, User, Achievement, QUERY_DATE_FORMAT, SORTABLE_DATE_FORMAT) {
+        .controller('ReviewController', ['$scope', '$filter', '$window', '$stateParams', '$q', '$uibModal', 'Record', 'User', 'Achievement', 'QUERY_DATE_FORMAT', 'SORTABLE_DATE_FORMAT', function ReviewController($scope, $filter, $window, $stateParams, $q, $uibModal, Record, User, Achievement, QUERY_DATE_FORMAT, SORTABLE_DATE_FORMAT) {
             function fetchChartData(newValue, oldValue) {
                 function dateAsQueryString(d) {
                     return dateFilter(d, QUERY_DATE_FORMAT);
@@ -176,6 +176,13 @@
                             default:
                                 break;
                         }
+                    }, function promiseDidReject() {
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
                     });
                 }
             }

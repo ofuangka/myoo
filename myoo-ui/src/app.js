@@ -51,7 +51,7 @@
                 });
             };
         }])
-        .controller('SectionNavController', ['$scope', '$rootScope', '$state', 'Project', function SectionNavController($scope, $rootScope, $state, Project) {
+        .controller('SectionNavController', ['$scope', '$rootScope', '$state', '$uibModal', 'Project', function SectionNavController($scope, $rootScope, $state, $uibModal, Project) {
             $rootScope.$on('$stateChangeSuccess', function stateDidChange(event, toState, toParams) {
                 $scope.projectId = toParams.projectId;
                 $scope.sectionId = toParams.sectionId;
@@ -68,6 +68,13 @@
                     if (!isSubscribed) {
                         $state.go('fallback');
                     }
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
 
             });
@@ -101,7 +108,7 @@
                 return Project.own.$promise.$$state.status === 0;
             };
         }])
-        .controller('FallbackController', ['$filter', '$state', 'Project', function FallbackController($filter, $state, Project) {
+        .controller('FallbackController', ['$filter', '$state', '$uibModal', 'Project', function FallbackController($filter, $state, $uibModal, Project) {
 
             // go to the first subscribed project, if it exists
             Project.own.$promise.then(function promiseDidResolve() {
@@ -111,6 +118,13 @@
                         sectionId: 'record'
                     });
                 }
+            }, function promiseDidReject() {
+                $uibModal.open({
+                    templateUrl: 'partials/message.html',
+                    controller: 'GenericErrorMessageController',
+                    scope: $scope,
+                    size: 'sm'
+                });
             });
         }])
         .controller('SharedScopeController', ['$scope', '$uibModal', 'Project', 'Achievement', function SharedScopeController($scope, $uibModal, Project, Achievement) {
@@ -149,25 +163,31 @@
                         controller: 'EditProjectController',
                         scope: $scope
                     });
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
             };
         }])
-        .controller('LeaderboardsController', ['$scope', '$filter', 'Record', 'QUERY_DATE_FORMAT', function LeaderboardsController($scope, $filter, Record, QUERY_DATE_FORMAT) {
+        .controller('LeaderboardsController', ['$scope', '$filter', '$uibModal', 'Record', 'QUERY_DATE_FORMAT', function LeaderboardsController($scope, $filter, $uibModal, Record, QUERY_DATE_FORMAT) {
             function getBeginDate() {
                 var ret = new Date();
                 switch ($scope.period) {
                     case 'week':
-                        // go back to the most recent Sunday
-                        ret.setDate(ret.getDate() - ret.getDay());
+                        // go back a week
+                        ret.setDate(ret.getDate() - 7);
                         break;
                     case 'month':
-                        // go back to the first of the month
-                        ret.setDate(1);
+                        // go back a month
+                        ret.setMonth(ret.getMonth() - 1);
                         break;
                     case 'year':
-                        // go back to January 1 of this year
-                        ret.setMonth(0);
-                        ret.setDate(1);
+                        // go back a year
+                        ret.setYear(ret.getYear() - 1);
                         break;
                     default:
                         break;
@@ -199,7 +219,19 @@
                         $scope.leaders.push({username: key, points: map[key]})
                     }
                     $scope.isLoading = false;
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
+                    $scope.isLoading = false;
                 });
             });
+        }])
+        .controller('GenericErrorMessageController', ['$scope', function GenericErrorMessageController($scope) {
+            $scope.title = 'Generic error';
+            $scope.message = 'Oops! Something went wrong and I don\'t know what. Try reloading the page.';
         }]);
 }(window.angular, window.google));

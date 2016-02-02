@@ -38,12 +38,19 @@
 
                     // add project to Project.all
                     Project.all.$promise.then(function promiseDidResolve() {
-                        Project.all.unshift(result);
+                        Project.all.unshift(angular.fromJson(angular.toJson(result)));
+                    }, function promiseDidReject() {
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
                     });
 
                     // add project to Project.own
                     Project.own.$promise.then(function promiseDidResolve() {
-                        Project.own.unshift(result);
+                        Project.own.unshift(angular.fromJson(angular.toJson(result)));
 
                         // if this is the user's only project, navigate to it
                         if (Project.own.length == 1) {
@@ -52,6 +59,13 @@
                                 sectionId: 'record'
                             });
                         }
+                    }, function promiseDidReject() {
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
                     });
 
                     var subscriptionResult = Subscription.save({projectId: result.id}, function requestDidSucceed() {
@@ -60,6 +74,13 @@
                         Subscription.own.$promise.then(function promiseDidResolve() {
                             Subscription.own.unshift(subscriptionResult);
                             $scope.$close();
+                        }, function promiseDidReject() {
+                            $uibModal.open({
+                                templateUrl: 'partials/message.html',
+                                controller: 'GenericErrorMessageController',
+                                scope: $scope,
+                                size: 'sm'
+                            });
                         });
                     });
                 });
@@ -130,6 +151,13 @@
                         }
                         $rootScope.$broadcast('projectChangeSuccess', result);
                         $scope.$close();
+                    }, function promiseDidReject() {
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
                     });
                 });
             };
@@ -147,6 +175,13 @@
                             break;
                         }
                     }
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
 
                 // delete any references in Project.own
@@ -157,6 +192,13 @@
                             break;
                         }
                     }
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
 
                 // delete any references in Subscription.own
@@ -168,6 +210,13 @@
                             // there might be more than one Subscription with the same projectId, so remove them all
                         }
                     }
+                }, function promiseDidReject() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
             }
 
@@ -186,6 +235,13 @@
                     }
                     $scope.$close();
                     $scope.$parent.$close();
+                }, function requestDidFail() {
+                    $uibModal.open({
+                        templateUrl: 'partials/message.html',
+                        controller: 'GenericErrorMessageController',
+                        scope: $scope,
+                        size: 'sm'
+                    });
                 });
             };
         }])
