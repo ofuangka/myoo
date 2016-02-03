@@ -1,7 +1,7 @@
 (function wrapper(angular) {
     'use strict';
     angular.module('Myoo')
-        .controller('ManageSubscriptionsController', ['$scope', '$uibModal', '$state', '$stateParams', '$q', 'Project', 'Subscription', 'User', 'Achievement', function ManageSubscriptionsController($scope, $uibModal, $state, $stateParams, $q, Project, Subscription, User, Achievement) {
+        .controller('ManageProjectsController', ['$scope', '$uibModal', '$state', '$stateParams', '$q', 'Project', 'Subscription', 'User', 'Achievement', function ManageProjectsController($scope, $uibModal, $state, $stateParams, $q, Project, Subscription, User, Achievement) {
             function getSubscription(project) {
                 var i,
                     len,

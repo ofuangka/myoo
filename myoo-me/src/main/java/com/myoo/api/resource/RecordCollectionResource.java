@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -34,9 +33,7 @@ import com.myoo.api.service.SecurityService;
 @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class RecordCollectionResource {
 
-	private static final String EXPECTED_DATE_FORMAT = "yyyy-MM-dd";
-
-	private static final Logger log = Logger.getLogger(RecordCollectionResource.class.getName());
+	private static final String EXPECTED_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.sssZ";
 
 	@Inject
 	private AchievementDao achievementDao;

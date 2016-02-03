@@ -2,7 +2,7 @@
     'use strict';
     angular.module('Myoo', ['ngResource', 'ui.router', 'ui.bootstrap', 'loadingButton', 'spinner', 'cooldown', 'sprite'])
         .constant('INFINITY', -1)
-        .constant('QUERY_DATE_FORMAT', 'yyyy-MM-dd')
+        .constant('QUERY_DATE_FORMAT', 'yyyy-MM-ddTHH:mm:ss.sssZ')
         .constant('SORTABLE_DATE_FORMAT', 'yyyy-MM-dd')
         /**
          * Configures the application
@@ -34,10 +34,10 @@
         })
         .controller('UserMenuController', ['$scope', '$uibModal', 'User', function UserMenuController($scope, $uibModal, User) {
             $scope.my = User.self;
-            $scope.showManageSubscriptions = function showManageSubscriptions() {
+            $scope.showManageProjects = function showManageProjects() {
                 $uibModal.open({
-                    templateUrl: 'partials/manage-subscriptions.html',
-                    controller: 'ManageSubscriptionsController',
+                    templateUrl: 'partials/manage-projects.html',
+                    controller: 'ManageProjectsController',
                     size: 'lg',
                     scope: $scope
                 });
@@ -128,10 +128,10 @@
             });
         }])
         .controller('SharedScopeController', ['$scope', '$uibModal', 'Project', 'Achievement', function SharedScopeController($scope, $uibModal, Project, Achievement) {
-            $scope.showManageSubscriptions = function showManageSubscriptions() {
+            $scope.showManageProjects = function showManageProjects() {
                 $uibModal.open({
-                    templateUrl: 'partials/manage-subscriptions.html',
-                    controller: 'ManageSubscriptionsController',
+                    templateUrl: 'partials/manage-projects.html',
+                    controller: 'ManageProjectsController',
                     scope: $scope,
                     size: 'lg'
                 });
