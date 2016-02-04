@@ -12,16 +12,24 @@
         </div>
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.name.$dirty && createAchievementForm.name.$invalid}"><label>Name</label><input
-                name="name" class="form-control" required="true" ng-model="selectedAchievement.name"> <span
+                name="name" class="form-control" required="true" maxlength="20" ng-model="selectedAchievement.name"
+                uib-tooltip="Enter a cool name for your achievement" tooltip-trigger="focus" tooltip-placement="bottom"> <span
                 class="glyphicon glyphicon-remove form-control-feedback"
                 ng-show="createAchievementForm.name.$dirty && createAchievementForm.name.$invalid"></span></div>
         <div class="form-group"><label>Description</label><textarea name="description" class="form-control"
-                                                                    ng-model="selectedAchievement.description"></textarea>
+                                                                    maxlength="50"
+                                                                    ng-model="selectedAchievement.description"
+                                                                    uib-tooltip="Describe your achievement"
+                                                                    tooltip-trigger="focus"
+                                                                    tooltip-placement="bottom"></textarea>
         </div>
         <div class="form-group has-feedback"
              ng-class="{'has-error': createAchievementForm.points.$dirty && createAchievementForm.points.$invalid}">
             <label>Points</label><input name="points" type="number" pattern="\d*" class="form-control" required="true"
-                                        ng-model="selectedAchievement.points"> <span
+                                        min="1" max="999" maxlength="3"
+                                        ng-model="selectedAchievement.points"
+                                        uib-tooltip="How many points is this achievement worth?" tooltip-trigger="focus"
+                                        tooltip-placement="bottom"> <span
                 class="glyphicon glyphicon-remove form-control-feedback"
                 ng-show="createAchievementForm.points.$dirty && createAchievementForm.points.$invalid"></span></div>
         <div class="form-group">

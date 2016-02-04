@@ -9,14 +9,17 @@
                 <div class="padding-md">
                     <div class="form-group has-feedback"
                          ng-class="{'has-error': createProjectForm.$dirty && createProjectForm.$invalid}"><label>Project
-                        Name</label><input type="text" class="form-control" required="true"
-                                           ng-model="selectedProject.name"> <span
+                        Name</label><input type="text" class="form-control" required="true" maxlength="20"
+                                           ng-model="selectedProject.name" uib-tooltip="Name your project"
+                                           tooltip-trigger="focus" tooltip-placement="bottom"> <span
                             class="glyphicon glyphicon-remove form-control-feedback"
                             ng-show="createProjectForm.$dirty && createProjectForm.$invalid" aria-hidden="true"></span>
                     </div>
                     <div class="form-group"><label>Project Description</label>
                         <textarea class="form-control"
-                                  ng-model="selectedProject.description"></textarea>
+                                  ng-model="selectedProject.description" maxlength="50"
+                                  uib-tooltip="Enter a project description" tooltip-trigger="focus"
+                                  tooltip-placement="bottom"></textarea>
                     </div>
                     <div class="form-group text-center" ng-if="isEditingProject">
                         <a class="btn btn-danger"
@@ -26,7 +29,8 @@
             </div>
             <div uib-tab heading="Achievements">
                 <div class="padding-md">
-                    <p ng-if="!isLoadingAchievements() && selectedProject.achievements.length === 0" uib-alert type="info">
+                    <p ng-if="!isLoadingAchievements() && selectedProject.achievements.length === 0" uib-alert
+                       type="info">
                         There are
                         currently no achievements for this project.</p>
                     <p class="text-center">

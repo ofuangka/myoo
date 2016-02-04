@@ -14,7 +14,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.myoo.api.dao.AchievementDao;
 import com.myoo.api.dao.ModifierDao;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Modifier;
@@ -42,9 +41,6 @@ public class GoogleSecurityService implements SecurityService {
 	@Inject
 	private ProjectDao projectDao;
 
-	@Inject
-	private AchievementDao achievementDao;
-
 	private UserService userService = UserServiceFactory.getUserService();
 
 	private String salt = DEFAULT_SALT;
@@ -70,11 +66,6 @@ public class GoogleSecurityService implements SecurityService {
 			}
 		}
 		return ret;
-	}
-
-	@Override
-	public boolean isUserAllowedToEditAchievement(String achievementId) {
-		return isUserAllowedToEditProject(achievementDao.get(achievementId).getProjectId());
 	}
 
 	@Override

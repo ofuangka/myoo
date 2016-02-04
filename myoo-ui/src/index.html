@@ -77,10 +77,6 @@
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="components/fastclick/lib/fastclick.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-    // frozen version until Google fixes bug with scrolling on iOS
-    google.charts.load('42', {packages: ['bar']});
-</script>
 <!-- build:js myoo.min.js -->
 <script src="spinner.js"></script>
 <script src="loading-button.js"></script>
@@ -93,12 +89,5 @@
 <script src="create-project.js"></script>
 <script src="services.js"></script>
 <!-- /build -->
-<script>
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function domContentDidLoad() {
-            FastClick.attach(document.body);
-        }, false);
-    }
-</script>
 </body>
 </html>

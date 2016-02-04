@@ -1,4 +1,4 @@
-(function wrapper(angular, google) {
+(function wrapper(angular, google, FastClick) {
     'use strict';
     angular.module('Myoo', ['ngResource', 'ui.router', 'ui.bootstrap', 'loadingButton', 'spinner', 'cooldown', 'sprite'])
         .constant('INFINITY', -1)
@@ -23,6 +23,13 @@
             $urlRouterProvider.otherwise('/');
 
         }])
+        .run(function runFn() {
+
+            // frozen version until Google fixes bug with scrolling on iOS
+            google.charts.load('41', {packages: ['bar']});
+
+            FastClick.attach(document.body);
+        })
         .filter('capitalize', function capitalizeFactory() {
             return function capitalize(data) {
                 if (angular.isString(data) && data.length > 0) {
@@ -234,4 +241,4 @@
             $scope.title = 'Generic error';
             $scope.message = 'Oops! Something went wrong and I don\'t know what. Try reloading the page.';
         }]);
-}(window.angular, window.google));
+}(window.angular, window.google, window.FastClick));

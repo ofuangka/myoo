@@ -13,19 +13,19 @@ import com.myoo.api.support.HasId;
 @XmlRootElement
 public class Achievement extends HasId {
 
-	@NotBlank
 	private String projectId;
 
-	@Size(min = 1, max = 30)
+	@Size(min = 1, max = 20)
 	private String name;
 
-	@Size(min = 1, max = 100)
+	@Size(min = 1, max = 50)
 	private String description;
 
 	@Min(1)
-	@Max(10000)
+	@Max(999)
 	private Integer points;
 
+	@NotNull
 	@NotBlank
 	private String frequency;
 	

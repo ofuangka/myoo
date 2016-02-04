@@ -14,10 +14,10 @@ public class Project extends HasId {
 	private List<Achievement> achievements;
 
 	@NotNull
-	@Size(min = 1, max = 25)
+	@Size(min = 1, max = 20)
 	private String name;
 
-	@Size(max = 100)
+	@Size(max = 50)
 	private String description;
 
 	private String createdBy;
