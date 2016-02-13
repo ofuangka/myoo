@@ -1,10 +1,11 @@
 <div class="modal-header"><a class="close" ng-click="$dismiss('User clicked x')">&times;</a><h4>What did you do?</h4>
 </div>
 <div class="modal-body">
-    <div class="form-group"><label>Enter a short blurb to remind yourself exactly what it is that you did. For example:
-        <em>"Ran 4.5 miles on the treadmill today."</em> This is entirely optional.</label>
+    <div class="form-group"><label>Short Blurb</label>
         <textarea class="form-control" maxlength="500"
                   ng-model="shortBlurb"></textarea>
+        <p class="help-block">Enter a short blurb to remind yourself exactly what it is that you did. For example:
+            <em>"Ran 4.5 miles on the treadmill today."</em> This is entirely optional.</p>
     </div>
 </div>
 <div class="modal-footer">
