@@ -36,9 +36,11 @@
                 $scope.isSavingProject = true;
                 var result = Project.save($scope.selectedProject, function requestDidSucceed() {
 
+                    var cleanResult = angular.fromJson(angular.toJson(result));
+
                     // add project to Project.all
                     Project.all.$promise.then(function promiseDidResolve() {
-                        Project.all.unshift(angular.fromJson(angular.toJson(result)));
+                        Project.all.unshift(cleanResult);
                     }, function promiseDidReject() {
                         $uibModal.open({
                             templateUrl: 'partials/message.html',
@@ -50,7 +52,7 @@
 
                     // add project to Project.own
                     Project.own.$promise.then(function promiseDidResolve() {
-                        Project.own.unshift(angular.fromJson(angular.toJson(result)));
+                        Project.own.unshift(cleanResult);
 
                         // if this is the user's only project, navigate to it
                         if (Project.own.length == 1) {
@@ -134,10 +136,12 @@
 
                     $q.all([Project.all.$promise, Project.own.$promise]).then(function promiseDidResolve() {
 
+                        var cleanResult = angular.fromJson(angular.toJson(result));
+
                         // update Project.all references
                         for (i = 0, len = Project.all.length; i < len; i++) {
                             if (Project.all[i].id === result.id) {
-                                Project.all.splice(i, 1, angular.fromJson(angular.toJson(result)));
+                                Project.all.splice(i, 1, cleanResult);
                                 break;
                             }
                         }
@@ -145,11 +149,11 @@
                         // update Project.own references
                         for (i = 0, len = Project.own.length; i < len; i++) {
                             if (Project.own[i].id === result.id) {
-                                Project.own.splice(i, 1, angular.fromJson(angular.toJson(result)));
+                                Project.own.splice(i, 1, cleanResult);
                                 break;
                             }
                         }
-                        $rootScope.$broadcast('projectChangeSuccess', result);
+                        $rootScope.$broadcast('projectChangeSuccess', cleanResult);
                         $scope.$close();
                     }, function promiseDidReject() {
                         $uibModal.open({

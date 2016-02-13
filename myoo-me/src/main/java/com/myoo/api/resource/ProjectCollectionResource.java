@@ -18,8 +18,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.myoo.api.dao.AchievementDao;
+import com.myoo.api.dao.FootprintDao;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.domain.Achievement;
+import com.myoo.api.domain.Footprint;
 import com.myoo.api.domain.Project;
 import com.myoo.api.service.SecurityService;
 
@@ -39,13 +41,27 @@ public class ProjectCollectionResource {
 	@Context
 	private ResourceContext context;
 
+	@Inject
+	private FootprintDao footprintDao;
+
 	@GET
 	public List<Project> list(@QueryParam("own") boolean isOwn) {
-		if (isOwn) {
-			return projectDao.getByUserId(securityService.getUserId());
-		} else {
-			return projectDao.all();
+
+		List<Project> ret = (isOwn) ? projectDao.getByUserId(securityService.getUserId()) : projectDao.all();
+
+		/*
+		 * for each project, determine the creator's username from their most
+		 * recent footprint
+		 */
+		for (Project project : ret) {
+			Footprint footprint = footprintDao.getFirstByUserId(project.getCreatedBy());
+			if (footprint != null) {
+				project.setCreatedByUsername(footprint.getUsername());
+			}
 		}
+
+		return ret;
+
 	}
 
 	@POST
@@ -63,6 +79,7 @@ public class ProjectCollectionResource {
 				achievementDao.create(achievement);
 			}
 		}
+		ret.setCreatedByUsername(securityService.getUsername());
 		return ret;
 	}
 

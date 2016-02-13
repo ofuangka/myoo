@@ -85,32 +85,15 @@
 
             loadAchievements();
 
-            $scope.recordAchievement = function recordAchievement(achievement) {
-                $scope.isAchievementLoading[achievement.id] = true;
-                var result = Record.save({
-                    achievementId: achievement.id,
-                    points: achievement.points
-                }, function recordDidSucceed(result) {
-                    $q.all([$scope.achievementPromise, Record.own.$promise]).then(function promiseDidResolve() {
-                        Record.own.unshift(result);
-                        achievement.lastRecentRecordTs = result.ts;
-                        $uibModal.open({
-                            templateUrl: 'partials/message.html',
-                            controller: 'AchievementRecordedMessageController',
-                            scope: $scope,
-                            size: 'sm'
-                        });
-                        $scope.isAchievementLoading[achievement.id] = false;
-                    }, function promiseDidReject() {
-                        $uibModal.open({
-                            templateUrl: 'partials/message.html',
-                            controller: 'GenericErrorMessageController',
-                            scope: $scope,
-                            size: 'sm'
-                        });
-                    });
+            $scope.showRecordConfirm = function showRecordAchievement(achievement) {
+                $scope.selectedAchievement = achievement;
+                $uibModal.open({
+                    templateUrl: 'partials/record-confirm.html',
+                    controller: 'RecordConfirmController',
+                    scope: $scope
                 });
             };
+
             $scope.getCooldown = function getCooldown(achievement) {
                 if (achievement.lastRecentRecordTs === 0) {
                     return 1;
@@ -145,5 +128,39 @@
         .controller('AchievementRecordedMessageController', ['$scope', function AchievementRecordedMessageController($scope) {
             $scope.title = 'Achievement Recorded';
             $scope.message = 'You successfully recorded this achievement.';
+        }])
+        .controller('RecordConfirmController', ['$scope', '$q', '$uibModal' ,'Record', function RecordConfirmController($scope, $q, $uibModal, Record) {
+            function recordAchievement() {
+                var result = Record.save({
+                    achievementId: $scope.selectedAchievement.id,
+                    points: $scope.selectedAchievement.points,
+                    blurb: $scope.shortBlurb
+                }, function recordDidSucceed(result) {
+                    $q.all([$scope.achievementPromise, Record.own.$promise]).then(function promiseDidResolve() {
+                        Record.own.unshift(result);
+                        $scope.selectedAchievement.lastRecentRecordTs = result.ts;
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'AchievementRecordedMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        }).result.finally(function promiseDidSettle() {
+                            $scope.$close();
+                        });
+                    }, function promiseDidReject() {
+                        $scope.isConfirming = false;
+                        $uibModal.open({
+                            templateUrl: 'partials/message.html',
+                            controller: 'GenericErrorMessageController',
+                            scope: $scope,
+                            size: 'sm'
+                        });
+                    });
+                });
+            }
+            $scope.userDidConfirm = function userDidConfirm() {
+                $scope.isConfirming = true;
+                recordAchievement();
+            };
         }])
 }(window.angular));

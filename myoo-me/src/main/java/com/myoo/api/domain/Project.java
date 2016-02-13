@@ -22,6 +22,8 @@ public class Project extends HasId {
 
 	private String createdBy;
 
+	private String createdByUsername;
+
 	private Date createdTs;
 
 	private Date lastUpdatedTs;
@@ -56,6 +58,14 @@ public class Project extends HasId {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public String getCreatedByUsername() {
+		return createdByUsername;
+	}
+
+	public void setCreatedByUsername(String createdByUsername) {
+		this.createdByUsername = createdByUsername;
 	}
 
 	public Date getCreatedTs() {

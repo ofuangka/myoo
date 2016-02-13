@@ -27,6 +27,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 	private static final String KEY_TS = "ts";
 	private static final String KEY_HASHED_USER_ID = "hashedUserId";
 	private static final String KEY_USERNAME = "username";
+	private static final String KEY_BLURB = "blurb";
 
 	private static final GoogleDatastoreEntityMapper<Record> recordMapper = new GoogleDatastoreEntityMapper<Record>() {
 
@@ -39,6 +40,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			ret.setTs((Date) e.getProperty(KEY_TS));
 			ret.setUserId((String) e.getProperty(KEY_HASHED_USER_ID));
 			ret.setUsername((String) e.getProperty(KEY_USERNAME));
+			ret.setBlurb((String) e.getProperty(KEY_BLURB));
 			return ret;
 		}
 
@@ -49,6 +51,7 @@ public class GoogleRecordDao extends GoogleDatastoreDao<Record> implements Recor
 			to.setProperty(KEY_TS, from.getTs());
 			to.setProperty(KEY_HASHED_USER_ID, from.getUserId());
 			to.setProperty(KEY_USERNAME, from.getUsername());
+			to.setProperty(KEY_BLURB, from.getBlurb());
 		}
 
 	};

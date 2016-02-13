@@ -5,8 +5,8 @@
             currently no achievements for this project.</p>
         <a href="" class="list-group-item"
            ng-repeat="achievement in achievements | orderBy: 'name'"
-           ng-click="(getCooldown(achievement) >= 1) && recordAchievement(achievement)"
-           ng-class="{disabled: (getCooldown(achievement) < 1) || isAchievementLoading[achievement.id]}">
+           ng-click="(getCooldown(achievement) >= 1) && showRecordConfirm(achievement)"
+           ng-class="{disabled: (getCooldown(achievement) < 1)}">
             <span class="badge">{{ achievement.points }} &mu;</span>
             <div class="thumbnail pull-left marginright-md marginbottom-none"
                  uib-tooltip="{{ achievement.frequency | capitalize }} : {{ getRemainder(achievement) }}"

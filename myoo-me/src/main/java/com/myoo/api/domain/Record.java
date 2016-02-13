@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -29,6 +30,9 @@ public class Record extends HasId {
 
 	@Null
 	private Date ts;
+	
+	@Size(min = 0, max = 500)
+	private String blurb;
 
 	public String getAchievementId() {
 		return achievementId;
@@ -68,5 +72,13 @@ public class Record extends HasId {
 	
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getBlurb() {
+		return blurb;
+	}
+	
+	public void setBlurb(String blurb) {
+		this.blurb = blurb;
 	}
 }

@@ -1,0 +1,15 @@
+<div class="modal-header"><a class="close" ng-click="$dismiss('User clicked x')">&times;</a><h4>What did you do?</h4>
+</div>
+<div class="modal-body">
+    <div class="form-group"><label>Enter a short blurb to remind yourself exactly what it is that you did. For example:
+        <em>"Ran 4.5 miles on the treadmill today."</em> This is entirely optional.</label>
+        <textarea class="form-control" maxlength="500"
+                  ng-model="shortBlurb"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-default" ng-click="$dismiss('User canceled')">Cancel</a>
+    <button class="btn btn-danger" ng-click="userDidConfirm()" ng-disabled="isConfirming"
+            loading-button="(shortBlurb.length) ? 'Save' : 'Skip'"
+            is-loading="isConfirming"></button>
+</div>

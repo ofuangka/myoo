@@ -12,8 +12,10 @@
     <div ng-if="projects.length > 0">
         <div class="form-group"><label>Filter</label><input class="form-control" placeholder="Type to filter"
                                                             ng-model="projectFilter"></div>
-        <div class="poster thumbnail" ng-repeat="project in projects | filter : projectFilter | orderBy : 'name'"><h4
-                class="poster-heading"><a href="" ng-click="userDidChooseProject(project)">{{ project.name }}</a></h4>
+        <div class="poster thumbnail" ng-repeat="project in projects | filter : projectFilter | orderBy : 'name'">
+            <h4 class="poster-heading"><a href="" ng-click="userDidChooseProject(project)">{{ project.name }}</a>
+                <span ng-if="project.createdByUsername"><br /><small>by {{ project.createdByUsername }}</small></span>
+            </h4>
             <div class="poster-body">
                 <p>{{ project.description }}</p>
             </div>

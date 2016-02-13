@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,10 +16,12 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 
 import com.myoo.api.dao.AchievementDao;
+import com.myoo.api.dao.FootprintDao;
 import com.myoo.api.dao.ProjectDao;
 import com.myoo.api.dao.RecordDao;
 import com.myoo.api.dao.SubscriptionDao;
 import com.myoo.api.domain.Achievement;
+import com.myoo.api.domain.Footprint;
 import com.myoo.api.domain.Project;
 import com.myoo.api.service.SecurityService;
 
@@ -41,18 +42,16 @@ public class ProjectInstanceResource {
 	private RecordDao recordDao;
 
 	@Inject
-	private SecurityService userAccessService;
+	private SecurityService securityService;
 
-	@GET
-	public Project read(@PathParam("projectId") String projectId) {
-		return projectDao.get(projectId);
-	}
+	@Inject
+	private FootprintDao footprintDao;
 
 	@POST
 	public Project update(@PathParam("projectId") String projectId, @Valid Project project) {
 
 		// only authorized users are allowed to edit the project
-		if (userAccessService.isUserAllowedToEditProject(projectId)) {
+		if (securityService.isUserAllowedToEditProject(projectId)) {
 			List<Achievement> newAchievements = project.getAchievements();
 			List<Achievement> currentAchievements = achievementDao.getByProjectId(projectId);
 
@@ -94,8 +93,15 @@ public class ProjectInstanceResource {
 			Date now = Calendar.getInstance().getTime();
 			project.setId(projectId);
 			project.setLastUpdatedTs(now);
-			project.setCreatedBy(original.getCreatedBy());
 			project.setCreatedTs(original.getCreatedTs());
+
+			/* determine the username of the project creator */
+			String createdBy = original.getCreatedBy();
+			Footprint creatorFootprint = footprintDao.getFirstByUserId(createdBy);
+			if (creatorFootprint != null) {
+				project.setCreatedByUsername(creatorFootprint.getUsername());
+			}
+			project.setCreatedBy(createdBy);
 			return projectDao.update(project);
 		} else {
 			throw new SecurityException("User is not allowed to update that Project");
@@ -117,7 +123,7 @@ public class ProjectInstanceResource {
 
 	@DELETE
 	public Project delete(@PathParam("projectId") String projectId) {
-		if (userAccessService.isUserAllowedToEditProject(projectId)) {
+		if (securityService.isUserAllowedToEditProject(projectId)) {
 			Project ret = projectDao.delete(projectId);
 			List<Achievement> achievements = achievementDao.getByProjectId(projectId);
 			if (achievements != null) {

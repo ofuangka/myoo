@@ -9,6 +9,10 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.myoo.api.dao.FootprintDao;
+import com.myoo.api.domain.Footprint;
 import com.myoo.api.domain.User;
 import com.myoo.api.service.SecurityService;
 
@@ -24,6 +28,9 @@ public class RootResource {
 
 	@Inject
 	private SecurityService securityService;
+
+	@Inject
+	private FootprintDao footprintDao;
 
 	@Path("/projects")
 	public ProjectCollectionResource getProjectCollectionResource() {
@@ -53,10 +60,44 @@ public class RootResource {
 	@GET
 	@Path("/users/self")
 	public User getUser() {
+		String userId = securityService.getUserId();
+		String username = securityService.getUsername();
+		String logoutUrl = securityService.getLogoutUrl(URL_LOGOUT_REDIRECT);
+
+		/* we want to save the user's username in a Footprint object */
+		Footprint footprint = footprintDao.getFirstByUserId(userId);
+		if (footprint != null) {
+
+			/*
+			 * a user may have changed their username, so we check for that and
+			 * update their footprint if it did
+			 */
+			if (StringUtils.equals(footprint.getUsername(), username)) {
+				footprint.setUsername(username);
+				footprintDao.update(footprint);
+			} else {
+
+				/*
+				 * if the username didn't change then our info is up to date and
+				 * we don't have to do anything
+				 */
+			}
+		} else {
+
+			/*
+			 * if this is the first time we've seen this user, create a
+			 * Footprint for them
+			 */
+			footprint = new Footprint();
+			footprint.setUserId(userId);
+			footprint.setUsername(username);
+			footprintDao.create(footprint);
+		}
+
 		User ret = new User();
-		ret.setId(securityService.getUserId());
-		ret.setUsername(securityService.getUsername());
-		ret.setLogoutUrl(securityService.getLogoutUrl(URL_LOGOUT_REDIRECT));
+		ret.setId(userId);
+		ret.setUsername(username);
+		ret.setLogoutUrl(logoutUrl);
 		return ret;
 	}
 }
