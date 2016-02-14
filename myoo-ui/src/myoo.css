@@ -119,10 +119,14 @@
     display: none !important;
 }
 
-.visible-on-hover {
+.edit {
     visibility: hidden;
 }
 
-a:hover > .visible-on-hover {
+a:hover > .edit {
     visibility: visible;
+}
+
+.edit:hover {
+    text-decoration: underline;
 }
