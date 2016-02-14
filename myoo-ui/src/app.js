@@ -4,6 +4,7 @@
         .constant('INFINITY', -1)
         .constant('QUERY_DATE_FORMAT', 'yyyy-MM-ddTHH:mm:ss.sssZ')
         .constant('SORTABLE_DATE_FORMAT', 'yyyy-MM-dd')
+        .constant('DISPLAY_DATE_FORMAT', 'MMM d')
         /**
          * Configures the application
          */
@@ -26,7 +27,7 @@
         .run(function runFn() {
 
             // frozen version until Google fixes bug with scrolling on iOS
-            google.charts.load('41', {packages: ['bar']});
+            google.charts.load('43', {packages: ['bar']});
 
             FastClick.attach(document.body);
         })
@@ -37,8 +38,34 @@
                 } else {
                     return data;
                 }
-            }
+            };
         })
+        .filter('qdate', ['$filter', 'QUERY_DATE_FORMAT', function qdateFactory($filter, QUERY_DATE_FORMAT) {
+            return function qdate(data) {
+                return $filter('date')(data, QUERY_DATE_FORMAT);
+            };
+        }])
+        .filter('sdate', ['$filter', 'SORTABLE_DATE_FORMAT', function sdateFactory($filter, SORTABLE_DATE_FORMAT) {
+            return function sdate(data) {
+                return $filter('date')(data, SORTABLE_DATE_FORMAT);
+            }
+        }])
+        .filter('ddate', ['$filter', 'DISPLAY_DATE_FORMAT', function ddateFactory($filter, DISPLAY_DATE_FORMAT) {
+            return function ddate(data) {
+                var now = new Date(),
+                    ret = data;
+                if (angular.isDate(data)) {
+                    if ($filter('sdate')(data) === $filter('sdate')(now)) {
+                        ret = 'Today';
+                    } else if (data.getYear() ===now.getYear()) {
+                        ret = $filter('date')(data, DISPLAY_DATE_FORMAT);
+                    } else {
+                        ret = $filter('sdate')(data);
+                    }
+                }
+                return ret;
+            }
+        }])
         .controller('UserMenuController', ['$scope', '$uibModal', 'User', function UserMenuController($scope, $uibModal, User) {
             $scope.my = User.self;
             $scope.showManageProjects = function showManageProjects() {

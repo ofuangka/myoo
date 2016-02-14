@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <div class="input-group marginright-md">
                         <input name="from" type="text" class="form-control" ng-model="from"
-                               uib-datepicker-popup="{{ dateFormat }}" max-date="maxDate" is-open="isFromOpen"/>
+                               uib-datepicker-popup="{{ dateFormat }}" max-date="to" is-open="isFromOpen"/>
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default" ng-click="isFromOpen = true"><i
                                     class="glyphicon glyphicon-calendar"></i></a>
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <div class="input-group marginright-md">
                         <input name="to" type="text" class="form-control" ng-model="to"
-                               uib-datepicker-popup="{{ dateFormat }}" max-date="maxDate" is-open="isToOpen"/>
+                               uib-datepicker-popup="{{ dateFormat }}" min-date="from" max-date="maxDate" is-open="isToOpen"/>
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default" ng-click="isToOpen = true"><i
                                     class="glyphicon glyphicon-calendar"></i></a>
