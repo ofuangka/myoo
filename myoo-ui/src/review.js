@@ -123,16 +123,23 @@
                         achievementNames[achievement.id] = achievement.name;
                     });
 
-                    angular.forEach(records, function iterator(record) {
-                        rows[0].push(record.blurb || '');
-                        for (i = 1, len = rows.length; i < len; i++) {
-                            if (rows[i][0] === achievementNames[record.achievementId]) {
-                                rows[i].push(record.points);
-                            } else {
-                                rows[i].push(0);
+                    if (records.length > 0) {
+                        angular.forEach(records, function iterator(record) {
+                            rows[0].push(record.blurb || '');
+                            for (i = 1, len = rows.length; i < len; i++) {
+                                if (rows[i][0] === achievementNames[record.achievementId]) {
+                                    rows[i].push(record.points);
+                                } else {
+                                    rows[i].push(0);
+                                }
                             }
+                        });
+                    } else {
+                        rows[0].push('');
+                        for (i = 1, len = rows.length; i < len; i++) {
+                            rows[i].push(0);
                         }
-                    });
+                    }
 
                     $scope.reviewChartDataTable = google.visualization.arrayToDataTable(rows);
                     $scope.reviewChartOptions = {
