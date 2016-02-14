@@ -133,7 +133,6 @@
             function recordAchievement() {
                 var result = Record.save({
                     achievementId: $scope.selectedAchievement.id,
-                    points: $scope.selectedAchievement.points,
                     blurb: $scope.shortBlurb
                 }, function recordDidSucceed(result) {
                     $q.all([$scope.achievementPromise, Record.own.$promise]).then(function promiseDidResolve() {

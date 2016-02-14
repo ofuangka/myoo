@@ -28,7 +28,7 @@
             <label>Points</label><input name="points" type="number" pattern="\d*" class="form-control" required="true"
                                         min="1" max="999" maxlength="3"
                                         ng-model="selectedAchievement.points"
-                                        uib-tooltip="How many points is this achievement worth?" tooltip-trigger="focus"
+                                        uib-tooltip="How many points is this achievement worth? Maximum of 1,000." tooltip-trigger="focus"
                                         tooltip-placement="bottom"> <span
                 class="glyphicon glyphicon-remove form-control-feedback"
                 ng-show="createAchievementForm.points.$dirty && createAchievementForm.points.$invalid"></span></div>

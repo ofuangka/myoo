@@ -47,9 +47,10 @@
                     <spinner show-when="isLoadingProjects()"></spinner>
                     <ul class="nav nav-pills nav-stacked hidden-xs">
                         <li ng-repeat="project in projects | orderBy : 'name'"
-                            ng-class="{active: projectId === project.id}"><a
+                            ui-sref-active="active"><a
                                 ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})">{{
-                            project.name }}</a></li>
+                            project.name }}<span class="pull-right visible-on-hover" ng-if="isOwner(project.id)"
+                                                 ng-click="showEditProject(project.id, $event)">Edit</span></a></li>
                     </ul>
                     <select class="form-control visible-xs" ng-model="xsProjectSelect.projectId"
                             ng-options="project.id as project.name for project in projects | orderBy : 'name'"

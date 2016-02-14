@@ -151,7 +151,11 @@
                     scope: $scope
                 });
             };
-            $scope.showEditProject = function showEditProject(projectArg) {
+            $scope.showEditProject = function showEditProject(projectArg, event) {
+                if (event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
                 Project.own.$promise.then(function promiseDidResolve() {
                     var i, len, project;
                     if (angular.isString(projectArg)) {

@@ -84,9 +84,11 @@ public class RecordCollectionResource {
 
 	@POST
 	public Record create(@NotNull @Valid Record record) {
+		Achievement achievement = achievementDao.get(record.getAchievementId());
 		Date now = Calendar.getInstance().getTime();
 		record.setUserId(securityService.getUserId());
 		record.setUsername(securityService.getUsername());
+		record.setPoints(achievement.getPoints());
 		record.setTs(now);
 		return recordDao.create(record);
 	}
