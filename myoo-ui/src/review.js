@@ -12,17 +12,19 @@
 
                     }
 
-                    function windowDidResize(newValue, oldValue) {
-                        if (newValue !== oldValue) {
+                    function windowDidResize() {
+                        if (oldWidth !== $window.innerWidth) {
+                            oldWidth = $window.innerWidth;
                             drawChart();
                         }
                     }
 
-                    var deregistrationFn = scope.$watch('barChartData', function barChartDataDidChange(newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            drawChart();
-                        }
-                    });
+                    var oldWidth = $window.innerWidth,
+                        deregistrationFn = scope.$watch('barChartData', function barChartDataDidChange(newValue, oldValue) {
+                            if (newValue !== oldValue) {
+                                drawChart();
+                            }
+                        });
                     angular.element($window).on('resize', windowDidResize);
                     element.on('$destroy', function $destroy() {
                         angular.element($window).off('resize', windowDidResize);
@@ -38,7 +40,9 @@
         .controller('ReviewController', ['$scope', '$filter', '$window', '$stateParams', '$q', '$uibModal', 'Record', 'User', 'Achievement', function ReviewController($scope, $filter, $window, $stateParams, $q, $uibModal, Record, User, Achievement) {
             function chartControlsDidChange(newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    fetchChartData();
+                    if (angular.isDate($scope.from) && angular.isDate($scope.to)) {
+                        fetchChartData();
+                    }
                 }
             }
 
@@ -115,32 +119,45 @@
                 }
 
                 function generateAchievementsDataTable(results) {
-                    var records = results[0], achievements = results[1], achievementNames = {}, rows = [['Achievement']], i, len;
+                    var records = results[0], achievements = results[1], achievementNames = {}, achievementId, points = {}, rows = [['Date']];
 
-                    /* generate a map achievementNames[achievementId] = achievementName */
+                    // generate a map achievementNames[achievementId] = achievementName
                     angular.forEach(achievements, function iterator(achievement) {
-                        rows.push([achievement.name]);
                         achievementNames[achievement.id] = achievement.name;
                     });
 
+                    // generate a 2d array points[achievementId][date] = points
                     angular.forEach(records, function iterator(record) {
-                        rows[0].push(record.blurb || '');
-                        for (i = 1, len = rows.length; i < len; i++) {
-                            if (rows[i][0] === achievementNames[record.achievementId]) {
-                                rows[i].push(record.points);
-                            } else {
-                                rows[i].push(0);
-                            }
+                        var date = $filter('sdate')(new Date(record.ts));
+                        achievementId = record.achievementId;
+                        if (angular.isUndefined(points[achievementId])) {
+                            points[achievementId] = {};
+                        }
+                        if (angular.isUndefined(points[achievementId][date])) {
+                            points[achievementId][date] = record.points;
+                        } else {
+                            points[achievementId][date] += record.points;
+                        }
+
+                    });
+
+                    angular.forEach(achievementNames, function iterator(achievementName, achievementId) {
+                        rows[0].push(achievementName);
+                        if (angular.isUndefined(points[achievementId])) {
+                            points[achievementId] = {};
                         }
                     });
 
-                    $scope.reviewChartDataTable = google.visualization.arrayToDataTable(rows);
-                    $scope.reviewChartOptions = {
-                        isStacked: true,
-                        legend: {
-                            position: 'none'
+                    angular.forEach(getDatesBetween($scope.from, $scope.to), function iterator(date) {
+                        var row = [$filter('ddate')(date)];
+                        for (achievementId in achievementNames) {
+                            row.push(points[achievementId][$filter('sdate')(date)] || 0);
                         }
-                    };
+                        rows.push(row);
+                    });
+
+                    $scope.reviewChartDataTable = google.visualization.arrayToDataTable(rows);
+                    $scope.reviewChartOptions = {};
                     $scope.isLoading = false;
                 }
 
