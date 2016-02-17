@@ -32,7 +32,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 paddingbottom-md"
+                <div class="col-sm-9 col-sm-offset-3 paddingbottom-md"
                      ng-controller="SectionNavController">
                     <ul class="nav nav-pills" ng-if="projectId">
                         <li ng-class="{active: sectionId === 'record'}"><a
@@ -43,14 +43,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3 col-md-2" ng-controller="ProjectSidebarController">
+                <div class="col-sm-3" ng-controller="ProjectSidebarController">
                     <spinner show-when="isLoadingProjects()"></spinner>
                     <ul class="nav nav-pills nav-stacked hidden-xs">
-                        <li ng-repeat="project in projects | orderBy : 'name'"
+                        <li class="text-right" ng-repeat="project in projects | orderBy : 'name'"
                             ui-sref-active="active"><a
-                                ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})">{{
-                            project.name }}<span class="pull-right edit" ng-if="isOwner(project.id)"
-                                                 ng-click="showEditProject(project.id, $event)">Edit</span></a></li>
+                                ui-sref="section({projectId: project.id, sectionId: sectionId || 'record'})"><span
+                                class="edit" ng-if="isOwner(project.id)"
+                                ng-click="showEditProject(project.id, $event)">Edit</span><span
+                                class="pull-left">{{
+                            project.name }}</span><span
+                                class="clearfix"></span></a></li>
                     </ul>
                     <select class="form-control visible-xs" ng-model="xsProjectSelect.projectId"
                             ng-options="project.id as project.name for project in projects | orderBy : 'name'"
@@ -62,7 +65,7 @@
                             project</a>
                     </p>
                 </div>
-                <div class="col-sm-9 col-md-10">
+                <div class="col-sm-9">
                     <div ui-view></div>
                 </div>
             </div>

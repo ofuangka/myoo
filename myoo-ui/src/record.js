@@ -129,7 +129,7 @@
             $scope.title = 'Achievement Recorded';
             $scope.message = 'You successfully recorded this achievement.';
         }])
-        .controller('RecordConfirmController', ['$scope', '$q', '$uibModal' ,'Record', function RecordConfirmController($scope, $q, $uibModal, Record) {
+        .controller('RecordConfirmController', ['$scope', '$q', '$uibModal','Record', 'RANDOM_BLURB_EXAMPLES', function RecordConfirmController($scope, $q, $uibModal, Record, RANDOM_BLURB_EXAMPLES) {
             function recordAchievement() {
                 var result = Record.save({
                     achievementId: $scope.selectedAchievement.id,
@@ -157,6 +157,7 @@
                     });
                 });
             }
+            $scope.randomBlurbExample = RANDOM_BLURB_EXAMPLES[Math.floor(Math.random() * RANDOM_BLURB_EXAMPLES.length)];
             $scope.userDidConfirm = function userDidConfirm() {
                 $scope.isConfirming = true;
                 recordAchievement();

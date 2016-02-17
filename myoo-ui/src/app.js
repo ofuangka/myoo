@@ -5,6 +5,13 @@
         .constant('QUERY_DATE_FORMAT', 'yyyy-MM-ddTHH:mm:ss.sssZ')
         .constant('SORTABLE_DATE_FORMAT', 'yyyy-MM-dd')
         .constant('DISPLAY_DATE_FORMAT', 'MMM d')
+        .constant('RANDOM_BLURB_EXAMPLES', [
+            'Ran 4.5 miles on the treadmill today.',
+            'Completed draft version of Chapter 1.',
+            'Meditated for 15 minutes during lunch.',
+            'Dropped the application off on the way to work.',
+            'Spoke to the barista in French.'
+        ])
         /**
          * Configures the application
          */
@@ -57,7 +64,7 @@
                 if (angular.isDate(data)) {
                     if ($filter('sdate')(data) === $filter('sdate')(now)) {
                         ret = 'Today';
-                    } else if (data.getYear() ===now.getYear()) {
+                    } else if (data.getYear() === now.getYear()) {
                         ret = $filter('date')(data, DISPLAY_DATE_FORMAT);
                     } else {
                         ret = $filter('sdate')(data);
