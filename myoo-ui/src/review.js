@@ -221,9 +221,7 @@
             $scope.from = new Date(lastWeek);
             $scope.to = new Date(now);
             $scope.selectedChartType = $scope.chartTypes[0];
-            $scope.$watch('from', chartControlsDidChange);
-            $scope.$watch('to', chartControlsDidChange);
-            $scope.$watch('selectedChartType', chartControlsDidChange);
+            $scope.$watch('from + to + selectedChartType', chartControlsDidChange);
             fetchChartData();
-        }])
+        }]);
 }(window.angular, window.google));

@@ -30,7 +30,7 @@
 }
 
 .achievementList > .list-group-item {
-    padding: 15px;
+    padding: 15px
 }
 
 @media (min-width: 320px) {
@@ -43,6 +43,9 @@
 @media (min-width: 768px) {
     .poster {
         width: 170px
+    }
+    .form-inline .input-group>.form-control.dateField {
+        width: 100px
     }
 }
 
