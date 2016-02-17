@@ -149,7 +149,7 @@
                 return Project.own.$promise.$$state.status === 0;
             };
         }])
-        .controller('FallbackController', ['$filter', '$state', '$uibModal', 'Project', function FallbackController($filter, $state, $uibModal, Project) {
+        .controller('FallbackController', ['$scope', '$filter', '$state', '$uibModal', 'Project', function FallbackController($scope, $filter, $state, $uibModal, Project) {
 
             // go to the first subscribed project, if it exists
             Project.own.$promise.then(function promiseDidResolve() {
@@ -157,6 +157,12 @@
                     $state.go('section', {
                         projectId: $filter('orderBy')(Project.own, 'name')[0].id,
                         sectionId: 'record'
+                    });
+                } else {
+                    $uibModal.open({
+                        templateUrl: 'partials/welcome.html',
+                        controller: 'WelcomeMessageController',
+                        scope: $scope
                     });
                 }
             }, function promiseDidReject() {
@@ -278,5 +284,8 @@
         .controller('GenericErrorMessageController', ['$scope', function GenericErrorMessageController($scope) {
             $scope.title = 'Generic error';
             $scope.message = 'Oops! Something went wrong and I don\'t know what. Try reloading the page.';
+        }])
+        .controller('WelcomeMessageController', ['$scope', function WelcomeMessageController($scope) {
+
         }]);
 }(window.angular, window.google, window.FastClick));
