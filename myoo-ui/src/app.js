@@ -34,7 +34,7 @@
         .run(function runFn() {
 
             // frozen version until Google fixes bug with scrolling on iOS
-            google.charts.load('43', {packages: ['bar']});
+            google.charts.load('current', {packages: ['bar', 'corechart']});
 
             FastClick.attach(document.body);
         })
@@ -149,20 +149,21 @@
                 return Project.own.$promise.$$state.status === 0;
             };
         }])
-        .controller('FallbackController', ['$scope', '$filter', '$state', '$uibModal', 'Project', function FallbackController($scope, $filter, $state, $uibModal, Project) {
+        .controller('FallbackController', ['$scope', '$filter', '$q', '$state', '$uibModal', 'Project', 'User', function FallbackController($scope, $filter, $q, $state, $uibModal, Project, User) {
 
             // go to the first subscribed project, if it exists
-            Project.own.$promise.then(function promiseDidResolve() {
+            $q.all([User.self.$promise, Project.own.$promise]).then(function promiseDidResolve() {
                 if (Project.own.length > 0) {
                     $state.go('section', {
                         projectId: $filter('orderBy')(Project.own, 'name')[0].id,
                         sectionId: 'record'
                     });
-                } else {
+                } else if (User.self.firstTime) {
                     $uibModal.open({
                         templateUrl: 'partials/welcome.html',
                         controller: 'WelcomeMessageController',
-                        scope: $scope
+                        scope: $scope,
+                        size: 'sm'
                     });
                 }
             }, function promiseDidReject() {

@@ -9,6 +9,7 @@ public class User extends HasId {
 
 	private String username;
 	private String logoutUrl;
+	private Boolean firstTime;
 
 	public String getUsername() {
 		return username;
@@ -24,6 +25,14 @@ public class User extends HasId {
 
 	public void setLogoutUrl(String logoutUrl) {
 		this.logoutUrl = logoutUrl;
+	}
+
+	public Boolean isFirstTime() {
+		return firstTime;
+	}
+
+	public void setFirstTime(Boolean firstTime) {
+		this.firstTime = firstTime;
 	}
 
 }

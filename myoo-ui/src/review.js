@@ -8,7 +8,7 @@
                     function drawChart() {
 
                         // Instantiate and draw our chart, passing in some options.
-                        new google.charts.Bar(element[0]).draw(scope.barChartData, google.charts.Bar.convertOptions(scope.barChartOptions));
+                        new scope.barChartType(element[0]).draw(scope.barChartData, scope.barChartOptions);
 
                     }
 
@@ -33,6 +33,7 @@
                 },
                 scope: {
                     barChartData: '=',
+                    barChartType: '=',
                     barChartOptions: '='
                 }
             };
@@ -63,6 +64,48 @@
                         curr.setDate(curr.getDate() + 1);
                     }
                     return ret;
+                }
+
+                function generateTimelineDataTable(records) {
+                    var dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn('date', 'Timestamp');
+                    dataTable.addColumn('number', 'Points');
+                    dataTable.addColumn({type: 'string', role: 'tooltip'});
+                    angular.forEach(records, function iterator(record) {
+                        dataTable.addRow([new Date(record.ts), record.points, record.blurb || 'No message']);
+                    });
+                    console.log(dataTable);
+                    $scope.reviewChartType = google.visualization.ScatterChart;
+                    $scope.reviewChartDataTable = dataTable;
+                    $scope.reviewChartOptions = {
+                        chartArea: {
+                            left: '5%',
+                            top: '5%',
+                            width: '90%',
+                            height: '90%'
+                        },
+                        fontName: 'Roboto',
+                        fontSize: 12,
+                        hAxis: {
+                            baselineColor: '#999',
+                            minValue: $scope.from,
+                            maxValue: $scope.to,
+                            textStyle: {
+                                color: '#999'
+                            }
+                        },
+                        vAxis: {
+                            baselineColor: '#999',
+                            textStyle: {
+                                color: '#999'
+                            }
+                        },
+                        legend: 'none',
+                        tooltip: {
+                            isHtml: true
+                        }
+                    };
+                    $scope.isLoading = false;
                 }
 
                 function generatePeopleDataTable(records) {
@@ -112,9 +155,9 @@
                             rows[i][j] += rows[i - 1][j];
                         }
                     }
-
+                    $scope.reviewChartType = google.charts.Bar;
                     $scope.reviewChartDataTable = google.visualization.arrayToDataTable(rows);
-                    $scope.reviewChartOptions = {};
+                    $scope.reviewChartOptions = google.charts.Bar.convertOptions({});
                     $scope.isLoading = false;
                 }
 
@@ -156,8 +199,9 @@
                         rows.push(row);
                     });
 
+                    $scope.reviewChartType = google.charts.Bar;
                     $scope.reviewChartDataTable = google.visualization.arrayToDataTable(rows);
-                    $scope.reviewChartOptions = {};
+                    $scope.reviewChartOptions = google.charts.Bar.convertOptions({});
                     $scope.isLoading = false;
                 }
 
@@ -166,6 +210,14 @@
                 $scope.isLoading = true;
                 User.self.$promise.then(function promiseDidResolve() {
                     switch ($scope.selectedChartType) {
+                        case 'timeline':
+                            Record.query({
+                                begin_date: from,
+                                end_date: to,
+                                pid: $stateParams.projectId,
+                                own: true
+                            }).$promise.then(generateTimelineDataTable);
+                            break;
                         case 'people':
                             Record.query({
                                 begin_date: from,
@@ -217,7 +269,7 @@
             };
             $scope.maxDate = new Date(now);
             $scope.dateFormat = 'yyyy-MM-dd';
-            $scope.chartTypes = ['people', 'achievements'];
+            $scope.chartTypes = ['timeline', 'people', 'achievements'];
             $scope.from = new Date(lastWeek);
             $scope.to = new Date(now);
             $scope.selectedChartType = $scope.chartTypes[0];

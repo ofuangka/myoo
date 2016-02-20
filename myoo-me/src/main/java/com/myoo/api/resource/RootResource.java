@@ -60,12 +60,15 @@ public class RootResource {
 	@GET
 	@Path("/users/self")
 	public User getUser() {
+		User ret = new User();
+		
 		String userId = securityService.getUserId();
 		String username = securityService.getUsername();
 		String logoutUrl = securityService.getLogoutUrl(URL_LOGOUT_REDIRECT);
 
 		/* we want to save the user's username in a Footprint object */
 		Footprint footprint = footprintDao.getFirstByUserId(userId);
+		ret.setFirstTime(footprint == null);
 		if (footprint != null) {
 
 			/*
@@ -94,7 +97,6 @@ public class RootResource {
 			footprintDao.create(footprint);
 		}
 
-		User ret = new User();
 		ret.setId(userId);
 		ret.setUsername(username);
 		ret.setLogoutUrl(logoutUrl);
