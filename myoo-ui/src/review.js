@@ -70,9 +70,10 @@
                     var dataTable = new google.visualization.DataTable();
                     dataTable.addColumn('date', 'Timestamp');
                     dataTable.addColumn('number', 'Points');
-                    dataTable.addColumn({type: 'string', role: 'tooltip'});
+                    dataTable.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
                     angular.forEach(records, function iterator(record) {
-                        dataTable.addRow([new Date(record.ts), record.points, record.blurb || 'No message']);
+                        var ts = new Date(record.ts);
+                        dataTable.addRow([ts, record.points, '<div class="panel-body"><h4>' + $filter('ddate')(ts) + '</h4><p>' + (record.blurb || 'No message') + '</p></div>']);
                     });
                     console.log(dataTable);
                     $scope.reviewChartType = google.visualization.ScatterChart;
@@ -80,9 +81,9 @@
                     $scope.reviewChartOptions = {
                         chartArea: {
                             left: '5%',
-                            top: '5%',
-                            width: '90%',
-                            height: '90%'
+                            top: '10%',
+                            width: '95%',
+                            height: '80%'
                         },
                         fontName: 'Roboto',
                         fontSize: 12,
@@ -102,7 +103,8 @@
                         },
                         legend: 'none',
                         tooltip: {
-                            isHtml: true
+                            isHtml: true,
+                            trigger: 'selection'
                         }
                     };
                     $scope.isLoading = false;
