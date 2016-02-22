@@ -3,7 +3,10 @@
     <application>${app.id}</application>
     <version>${app.version}</version>
     <threadsafe>true</threadsafe>
-    
+    <static-files>
+    	<include path="/ui/**.*" />
+    	<include path="/favicon.ico" />
+    </static-files>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
