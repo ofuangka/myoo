@@ -1,7 +1,5 @@
 package com.myoo.api.service;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,9 +12,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.myoo.api.dao.ModifierDao;
 import com.myoo.api.dao.ProjectDao;
-import com.myoo.api.domain.Modifier;
 import com.myoo.api.domain.Project;
 
 @Named
@@ -36,9 +32,6 @@ public class GoogleSecurityService implements SecurityService {
 	}
 
 	@Inject
-	private ModifierDao modifierDao;
-
-	@Inject
 	private ProjectDao projectDao;
 
 	private UserService userService = UserServiceFactory.getUserService();
@@ -52,18 +45,10 @@ public class GoogleSecurityService implements SecurityService {
 	@Override
 	public boolean isUserAllowedToEditProject(String projectId) {
 		boolean ret = false;
-		List<Modifier> allowedModifiers = modifierDao.getByProjectId(projectId);
 		String userId = getUserId();
 		Project project = projectDao.get(projectId);
 		if (StringUtils.equals(userId, project.getCreatedBy())) {
 			ret = true;
-		} else {
-			for (Modifier modifier : allowedModifiers) {
-				if (StringUtils.equals(userId, modifier.getUserId())) {
-					ret = true;
-					break;
-				}
-			}
 		}
 		return ret;
 	}

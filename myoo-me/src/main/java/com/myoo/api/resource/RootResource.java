@@ -1,5 +1,7 @@
 package com.myoo.api.resource;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -52,22 +54,18 @@ public class RootResource {
 		return context.getResource(RecordCollectionResource.class);
 	}
 
-	@Path("/modifiers")
-	public ModifierCollectionResource getModifierCollectionResource() {
-		return context.getResource(ModifierCollectionResource.class);
-	}
-
 	@GET
 	@Path("/users/self")
 	public User getUser() {
 		User ret = new User();
-		
+
 		String userId = securityService.getUserId();
 		String username = securityService.getUsername();
 		String logoutUrl = securityService.getLogoutUrl(URL_LOGOUT_REDIRECT);
 
 		/* we want to save the user's username in a Footprint object */
 		Footprint footprint = footprintDao.getFirstByUserId(userId);
+		footprint.setTs(Calendar.getInstance().getTime());
 		ret.setFirstTime(footprint == null);
 		if (footprint != null) {
 

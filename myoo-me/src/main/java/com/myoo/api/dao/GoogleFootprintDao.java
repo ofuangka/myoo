@@ -1,5 +1,6 @@
 package com.myoo.api.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
@@ -16,10 +17,10 @@ import com.myoo.api.support.GoogleDatastoreEntityMapper;
 @Named
 public class GoogleFootprintDao extends GoogleDatastoreDao<Footprint> implements FootprintDao {
 
-	private static final String KIND_FOOTPRINT = "footprint";
-
+	private static final String KIND_FOOTPRINT = "Footprint";
 	private static final String KEY_HASHED_USER_ID = "hashedUserId";
 	private static final String KEY_USERNAME = "username";
+	private static final String KEY_TS = "ts";
 
 	private GoogleDatastoreEntityMapper<Footprint> footprintMapper = new GoogleDatastoreEntityMapper<Footprint>() {
 
@@ -29,6 +30,7 @@ public class GoogleFootprintDao extends GoogleDatastoreDao<Footprint> implements
 			ret.setId(KeyFactory.keyToString(e.getKey()));
 			ret.setUserId((String) e.getProperty(KEY_HASHED_USER_ID));
 			ret.setUsername((String) e.getProperty(KEY_USERNAME));
+			ret.setTs((Date) e.getProperty(KEY_TS));
 			return ret;
 		}
 
@@ -36,6 +38,7 @@ public class GoogleFootprintDao extends GoogleDatastoreDao<Footprint> implements
 		public void map(Footprint from, Entity to) {
 			to.setProperty(KEY_HASHED_USER_ID, from.getUserId());
 			to.setProperty(KEY_USERNAME, from.getUsername());
+			to.setProperty(KEY_TS, from.getTs());
 		}
 	};
 

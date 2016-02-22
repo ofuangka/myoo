@@ -81,9 +81,9 @@
                     $scope.reviewChartOptions = {
                         chartArea: {
                             left: '5%',
-                            top: '10%',
+                            top: '5%',
                             width: '95%',
-                            height: '80%'
+                            height: '85%'
                         },
                         fontName: 'Roboto',
                         fontSize: 12,
