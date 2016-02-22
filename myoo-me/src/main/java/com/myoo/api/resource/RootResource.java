@@ -65,7 +65,6 @@ public class RootResource {
 
 		/* we want to save the user's username in a Footprint object */
 		Footprint footprint = footprintDao.getFirstByUserId(userId);
-		footprint.setTs(Calendar.getInstance().getTime());
 		ret.setFirstTime(footprint == null);
 		if (footprint != null) {
 
@@ -75,6 +74,7 @@ public class RootResource {
 			 */
 			if (StringUtils.equals(footprint.getUsername(), username)) {
 				footprint.setUsername(username);
+				footprint.setTs(Calendar.getInstance().getTime());
 				footprintDao.update(footprint);
 			} else {
 
