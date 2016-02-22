@@ -162,8 +162,7 @@
                     $uibModal.open({
                         templateUrl: 'partials/welcome.html',
                         controller: 'WelcomeMessageController',
-                        scope: $scope,
-                        size: 'sm'
+                        scope: $scope
                     });
                 }
             }, function promiseDidReject() {

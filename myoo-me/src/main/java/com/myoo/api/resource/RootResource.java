@@ -92,6 +92,7 @@ public class RootResource {
 			footprint = new Footprint();
 			footprint.setUserId(userId);
 			footprint.setUsername(username);
+			footprint.setTs(Calendar.getInstance().getTime());
 			footprintDao.create(footprint);
 		}
 
