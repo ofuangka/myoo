@@ -111,7 +111,7 @@
                 });
             };
             $scope.showCreateAchievement = function showCreateAchievement() {
-                $scope.selectedAchievement = {points: 0, frequency: 'daily'};
+                $scope.selectedAchievement = {points: 0, frequency: 'daily', spriteX: 0, spriteY: 0};
                 $uibModal.open({
                     templateUrl: 'partials/create-achievement.html',
                     controller: 'CreateAchievementController',

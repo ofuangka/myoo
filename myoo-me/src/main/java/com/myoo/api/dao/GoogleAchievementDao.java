@@ -39,8 +39,12 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 			ret.setDescription((String) e.getProperty(KEY_DESCRIPTION));
 			ret.setPoints(((Long) e.getProperty(KEY_POINTS)).intValue());
 			ret.setFrequency((String) e.getProperty(KEY_FREQUENCY));
-			ret.setSpriteX(((Long) e.getProperty(KEY_SPRITE_X)).intValue());
-			ret.setSpriteY(((Long) e.getProperty(KEY_SPRITE_Y)).intValue());
+			if (e.getProperty(KEY_SPRITE_X) != null) {
+				ret.setSpriteX(((Long) e.getProperty(KEY_SPRITE_X)).intValue());
+			}
+			if (e.getProperty(KEY_SPRITE_Y) != null) {
+				ret.setSpriteY(((Long) e.getProperty(KEY_SPRITE_Y)).intValue());
+			}
 			return ret;
 		}
 
@@ -51,8 +55,12 @@ public class GoogleAchievementDao extends GoogleDatastoreDao<Achievement> implem
 			to.setProperty(KEY_DESCRIPTION, from.getDescription());
 			to.setProperty(KEY_POINTS, from.getPoints());
 			to.setProperty(KEY_FREQUENCY, from.getFrequency());
-			to.setProperty(KEY_SPRITE_X, from.getSpriteX());
-			to.setProperty(KEY_SPRITE_Y, from.getSpriteY());
+			if (from.getSpriteX() != null) {
+				to.setProperty(KEY_SPRITE_X, from.getSpriteX());
+			}
+			if (from.getSpriteY() != null) {
+				to.setProperty(KEY_SPRITE_Y, from.getSpriteY());
+			}
 		}
 
 	};

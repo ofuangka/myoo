@@ -2,6 +2,7 @@ package com.myoo.api.resource;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,7 +31,8 @@ public class AchievementInstanceResource {
 	}
 
 	@POST
-	public Achievement update(@PathParam("achievementId") String achievementId, @Valid Achievement achievement) {
+	public Achievement update(@PathParam("achievementId") String achievementId,
+			@NotNull @Valid Achievement achievement) {
 		if (userAccessService.isUserAllowedToEditProject(achievementDao.get(achievementId).getProjectId())) {
 			achievement.setId(achievementId);
 			return achievementDao.update(achievement);

@@ -75,7 +75,6 @@
                         var ts = new Date(record.ts);
                         dataTable.addRow([ts, record.points, '<div class="panel-body"><h4>' + $filter('ddate')(ts) + '</h4><p>' + (record.blurb || 'No message') + '</p></div>']);
                     });
-                    console.log(dataTable);
                     $scope.reviewChartType = google.visualization.ScatterChart;
                     $scope.reviewChartDataTable = dataTable;
                     $scope.reviewChartOptions = {
